@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AutoShop Inventory &amp; POS · Kiyo Jimenez</title>
+<meta name="description" content="Case study: a multi-branch inventory and POS system with database-enforced roles, and the security audit I ran on it before launch.">
+<script>(function(){var d=document.documentElement,q=new URLSearchParams(location.search),p,t;try{p=q.get("p")||localStorage.getItem("kiyo-palette");t=q.get("t")||localStorage.getItem("kiyo-theme")}catch(e){}d.dataset.palette=/^[abc]$/.test(p)?p:"c";d.dataset.theme=t==="light"||t==="dark"?t:(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");if(q.has("clean"))d.dataset.clean=""})()</script>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Familjen+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.top{padding-top:120px}
+.crumb{font:600 13px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--s5)}
+.crumb a{color:var(--fg);text-decoration:none}
+.crumb a:hover{color:var(--accent-text)}
+.top h1{font:900 var(--t-d1)/.84 var(--font-display);text-transform:uppercase;margin:0}
+.tt{position:relative}
+.sum{position:absolute;right:0;top:.4em;margin:0;max-width:32ch;font-size:var(--t-body-l);color:var(--muted)}
+.cmeta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s5);margin:var(--s7) 0 0;padding-top:var(--s4);border-top:2px solid var(--fg)}
+.cmeta dt{font:600 12px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cmeta dd{margin:4px 0 0;font-weight:600}
+.screen{margin-top:var(--s8)}
+.screen .frame{border:2px solid var(--fg);padding:clamp(10px,1.4vw,20px);background:var(--bg-2)}
+.screen figcaption{margin-top:var(--s3);font-size:var(--t-small);color:var(--muted)}
+.screen figcaption b{color:var(--m-bad);font-weight:600}
+.cs{margin-top:var(--s9)}
+.blk{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--s6);padding:var(--s7) 0;border-top:1px solid var(--line)}
+.blk h2{font:800 var(--t-d4)/1 var(--font-display);text-transform:uppercase;margin:0;position:sticky;top:96px;align-self:start}
+.blk h2 small{display:block;font:600 12px var(--font-mono);letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
+.blk p{margin:0 0 1em;max-width:62ch;font-size:var(--t-body-l)}
+.blk p:last-child{margin-bottom:0}
+.dec{list-style:none;margin:0;padding:0;counter-reset:d}
+.dec li{counter-increment:d;display:grid;grid-template-columns:44px 1fr;gap:var(--s3);padding:var(--s4) 0;border-top:1px solid var(--line);max-width:68ch}
+.dec li:first-child{border-top:0;padding-top:0}
+.dec li::before{content:counter(d,decimal-leading-zero);font:600 13px var(--font-mono);color:var(--accent-text);padding-top:.35em}
+.dec b{display:block;font-weight:700}
+.audit{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5) var(--s6)}
+.audit li{border-top:2px solid var(--fg);padding-top:var(--s4)}
+.audit .k{display:block;font:600 12px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.audit .f{margin:6px 0 var(--s4);color:var(--muted);text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px;font-size:var(--t-body)}
+.audit .x{margin:6px 0 0;font-weight:600;font-size:var(--t-body)}
+.next{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s5);margin-top:var(--s9);padding-top:var(--s5);border-top:2px solid var(--fg);text-decoration:none}
+.next b{font:900 var(--t-d2)/.86 var(--font-display);text-transform:uppercase}
+.next span{color:var(--muted);font-weight:600;padding-bottom:.6em}
+.next:hover b{color:var(--accent-text)}
+@media (max-width:900px){
+  .top{padding-top:96px}
+  .cmeta{grid-template-columns:1fr 1fr}
+  .sum{position:static;margin-top:var(--s5)}
+  .blk{grid-template-columns:1fr;gap:var(--s4);padding:var(--s6) 0}
+  .blk h2{position:static}
+  .audit{grid-template-columns:1fr}
+  .next{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="home.html" aria-label="kiyo, home">kiyo<i></i></a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="n" href="work.html" aria-current="page">Work</a><a class="n" href="about.html">About</a><a class="n ct" href="#contact">Contact</a>
+      <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+      <a class="res" href="#resume">Resume ↓</a>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+<div class="sheet" aria-label="Menu">
+  <a href="home.html">Home</a><a href="work.html">Work</a><a href="about.html">About</a><a href="#contact">Contact</a>
+  <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+  <p class="sm">Jimenezaerroljj@gmail.com · Imus, Cavite, PH</p>
+</div>
+
+<main id="main">
+<header class="top wrap">
+  <p class="crumb"><a href="work.html">Work</a> / 01</p>
+  <div class="tt"><h1 style="view-transition-name:case-title">AutoShop<br>Inventory &amp; POS</h1><p class="sum">A multi-branch inventory and POS that replaced drifting Excel sheets, with roles enforced in the database and a security audit before launch.</p></div>
+  <dl class="cmeta">
+    <div><dt>Role</dt><dd>Sole developer</dd></div>
+    <div><dt>Client</dt><dd>Freelance, confidential</dd></div>
+    <div><dt>When</dt><dd>2025 – present</dd></div>
+    <div><dt>Stack</dt><dd>Next.js 14 · TypeScript · Supabase · Playwright</dd></div>
+  </dl>
+</header>
+
+<figure class="screen wrap rv">
+  <div class="frame" data-mock="autoshop"></div>
+  <figcaption>Motion mock-up with demo data. Watch for the <b>red toast</b>: a staff account trying to make itself an admin, and the database saying no.</figcaption>
+</figure>
+
+<article class="cs wrap">
+  <section class="blk rv"><h2><small>01</small>Problem</h2><div><p>A multi-branch auto parts shop tracked stock and sales in Excel sheets. Each branch had its own copy, and the copies drifted apart.</p></div></section>
+  <section class="blk rv"><h2><small>02</small>My role</h2><div><p>Sole developer: requirements with the owner, design, build, a security audit and delivery. Version 1 (July 2025) was a C# WinForms app on SQL Server with barcode scanners. Version 2 (March 2026 onward) moved it to the web.</p></div></section>
+  <section class="blk rv"><h2><small>03</small>Approach</h2><div>
+    <ol class="dec">
+      <li><span><b>Access control lives in the database.</b>Four roles enforced with Row Level Security, so a tampered UI or a direct API call gets the same answer.</span></li>
+      <li><span><b>Stock that can't silently drift.</b>Barcode stock-in and stock-out, transfers between branches with approvals, and an audit log.</span></li>
+      <li><span><b>Privileged work goes through Edge Functions.</b>Each one checks that the caller's account is still active. The invite-acceptance function is the one exemption, by design.</span></li>
+      <li><span><b>Tests that attack.</b>Playwright end-to-end specs, including RLS specs that replay the attacks below.</span></li>
+    </ol>
+  </div></section>
+  <section class="blk rv" id="audit"><h2><small>04</small>The audit</h2><div>
+    <p>Before launch I went after my own app as a malicious staff account. Everything below is fixed, each with its own database migration.</p>
+    <ul class="audit">
+      <li><span class="k">Found</span><p class="f">The role helper trusted a profile claim that any user can rewrite. That's a privilege-escalation path.</p><span class="k">Fixed</span><p class="x">Roles are read from the users table only.</p></li>
+      <li><span class="k">Found</span><p class="f">Signup copied the role from the signup request, so anyone could create an admin.</p><span class="k">Fixed</span><p class="x">New accounts can no longer choose their role.</p></li>
+      <li><span class="k">Found</span><p class="f">Staff could move themselves to another branch, or reactivate a disabled account, by editing their own profile.</p><span class="k">Fixed</span><p class="x">Branch and account status are pinned on self-update.</p></li>
+      <li><span class="k">Found</span><p class="f">Receipts could be rewritten after the sale: items, totals, payment method.</p><span class="k">Fixed</span><p class="x">Receipts are immutable once issued.</p></li>
+      <li><span class="k">Found</span><p class="f">Deleting a branch silently wiped its inventory. The guard only existed in the browser.</p><span class="k">Fixed</span><p class="x">The database refuses the delete while stock remains.</p></li>
+      <li><span class="k">Found</span><p class="f">Stock adjustments and some deletions left no audit trail.</p><span class="k">Fixed</span><p class="x">Audit triggers now cover them.</p></li>
+    </ul>
+  </div></section>
+  <section class="blk rv"><h2><small>05</small>Result</h2><div><p>The shop runs on one system instead of drifting spreadsheets, and the security and data-loss defects above were closed before launch.</p></div></section>
+  <section class="blk rv"><h2><small>06</small>Links</h2><div><p>The repo is private and the client is confidential. I can walk you through the code and the audit on a call: <a href="mailto:Jimenezaerroljj@gmail.com">Jimenezaerroljj@gmail.com</a>.</p></div></section>
+
+  <a class="next" href="work.html#sovereign"><b>Sovereign</b><span>Next case: SOC analyst workspace →</span></a>
+</article>
+</main>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <p class="big rv">Available<br>Dec 2026<span>.</span></p>
+    <div class="row2">
+      <div>
+        <a class="mail" href="mailto:Jimenezaerroljj@gmail.com">Jimenezaerroljj@gmail.com</a>
+        <p class="meta">Imus, Cavite, PH · Onsite / Hybrid / Remote · <a href="https://www.linkedin.com/in/aerrol-jimenez-116b903b7/">LinkedIn</a> · <a href="https://github.com/KiyoTopKop">GitHub</a></p>
+      </div>
+      <div class="ctas"><a class="mag p" href="mailto:Jimenezaerroljj@gmail.com">Email<br>me</a><a class="mag s" href="#resume" id="resume">Resume<br>PDF ↓</a></div>
+    </div>
+    <div class="foot"><span>© 2026 Aerrol John Jimenez · kiyotopkop.me</span><span><a href="#">How this site is secured</a> · <a href="#">security.txt</a></span></div>
+  </div>
+</footer>
+<script src="assets/mock.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

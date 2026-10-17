@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aerrol John “Kiyo” Jimenez · Cybersecurity + Full-Stack Developer</title>
+<meta name="description" content="Aerrol John “Kiyo” Jimenez: cybersecurity + full-stack developer in Imus, Cavite, PH. Available December 2026.">
+<script>(function(){var d=document.documentElement,q=new URLSearchParams(location.search),p,t;try{p=q.get("p")||localStorage.getItem("kiyo-palette");t=q.get("t")||localStorage.getItem("kiyo-theme")}catch(e){}d.dataset.palette=/^[abc]$/.test(p)?p:"c";d.dataset.theme=t==="light"||t==="dark"?t:(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");if(q.has("clean"))d.dataset.clean=""})()</script>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Familjen+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ── hero ── */
+.hero{min-height:100svh;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;padding-top:84px;padding-bottom:var(--s6)}
+.status{display:flex;flex-wrap:wrap;gap:6px 22px;margin:0 0 var(--s5);font:600 13px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.status .on{color:var(--fg);display:inline-flex;align-items:center;gap:10px}
+.status .on::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--led-a);box-shadow:0 0 0 5px color-mix(in srgb,var(--led-a) 22%,transparent);animation:pulse 2.4s var(--ease) infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 9px color-mix(in srgb,var(--led-a) 0%,transparent)}}
+.name{display:inline-block;margin:0;font-family:var(--font-display);text-transform:uppercase;position:relative;z-index:2}
+.name .first,.name .last{display:block;font-weight:800;font-size:var(--t-d3);line-height:.9;letter-spacing:.01em}
+.name .last{text-align:right}
+.name .nick{display:block;font-weight:900;font-size:var(--t-hero);line-height:.76;margin:.05em 0 .04em -.03em;white-space:nowrap;letter-spacing:-.005em}
+.name .nick .q{color:var(--quote)}
+.role{font:700 var(--t-role)/1.25 var(--font-body);color:var(--role);margin:var(--s5) 0 0}
+.line{margin:var(--s2) 0 0;color:var(--muted);max-width:44ch;font-size:var(--t-body-l)}
+.ctas{display:flex;gap:var(--s3);margin-top:var(--s6)}
+
+/* ── the rack (signature effect, CSS 3D: every unit is a real link) ── */
+.stage{position:relative;display:grid;place-items:center;height:min(80vh,660px);perspective:1700px;perspective-origin:35% 28%;margin-left:-4vw}
+.rack{--W:400px;--U:54px;--D:300px;--P:18px;--T:16px;--pull:132px;
+  position:relative;width:var(--W);height:calc(var(--T)*2 + var(--U)*8);transform-style:preserve-3d;
+  transform:translateY(-10px) rotateX(var(--rx,-10deg)) rotateY(var(--ry,26deg))}
+.rack.turn{transition:transform .9s var(--ease)}
+.rack.flat{--rx:0deg!important;--ry:0deg!important}
+.rack,.rack .bx,.units,.unit{transform-style:preserve-3d}
+.bx{position:absolute}
+.rack,.rack .bx,.units,.unit,.rack .lf,.rack .tp,.post,.cap,.back,.rwall,.lcd{pointer-events:none}
+.unit .slot,.unit .fr{pointer-events:auto}
+.bx > .fr,.bx > .lf,.bx > .tp{position:absolute;backface-visibility:hidden}
+.bx > .fr{inset:0;transform:translateZ(calc(var(--d)/2))}
+.bx > .lf{top:0;height:100%;width:var(--d);left:calc(50% - var(--d)/2);transform:rotateY(-90deg) translateZ(calc(var(--w)/2))}
+.bx > .tp{left:0;width:100%;height:var(--d);top:calc(50% - var(--d)/2);transform:rotateX(90deg) translateZ(calc(var(--h)/2))}
+/* frame */
+.post{--w:var(--P);--h:calc(var(--T)*2 + var(--U)*8);--d:22px;top:0;width:var(--w);height:var(--h)}
+.post.fl{left:calc(var(--P)*-1);transform:translateZ(calc(var(--D)/2 - 11px))}
+.post.bl{left:calc(var(--P)*-1);transform:translateZ(calc(var(--D)/-2 + 11px))}
+.post.fr_{left:var(--W);transform:translateZ(calc(var(--D)/2 - 11px))}
+.post .fr{background:radial-gradient(circle at 50% 50%,#000a 0 2.2px,transparent 2.6px) 0 4px/100% 13.5px,linear-gradient(90deg,var(--rk-post),color-mix(in srgb,var(--rk-post) 82%,var(--rk-metal)) 50%,var(--rk-post))}
+.post .lf{background:linear-gradient(90deg,color-mix(in srgb,var(--rk-post) 70%,#000),var(--rk-post))}
+.cap{--w:calc(var(--W) + var(--P)*2);--h:var(--T);--d:var(--D);left:calc(var(--P)*-1);width:var(--w);height:var(--h)}
+.cap.top{top:0}.cap.bot{top:calc(var(--T) + var(--U)*8)}
+.cap .fr{background:linear-gradient(180deg,color-mix(in srgb,var(--rk-post) 70%,var(--rk-metal)),var(--rk-post))}
+.cap .lf{background:color-mix(in srgb,var(--rk-post) 80%,#000)}
+.cap .tp{background:linear-gradient(180deg,color-mix(in srgb,var(--rk-top) 60%,var(--rk-post)),var(--rk-post))}
+.rwall{--w:0px;--h:calc(var(--T)*2 + var(--U)*8);--d:var(--D);left:var(--W);top:0;width:0;height:var(--h)}
+.rwall .lf{background:color-mix(in srgb,var(--rk-post) 85%,#000)}
+.back{position:absolute;left:0;top:var(--T);width:var(--W);height:calc(var(--U)*8);background:var(--rk-post);transform:translateZ(calc(var(--D)/-2 + 2px))}
+/* units */
+.units{position:absolute;inset:0}
+.unit{position:absolute;left:0;top:calc(var(--T) + var(--U)*(2 + var(--i)));width:var(--W);height:var(--U);display:block;text-decoration:none;color:var(--rk-label);outline:none;cursor:pointer}
+.unit .slot{position:absolute;inset:0;transform:translateZ(calc(var(--D)/2 - 10px))}
+.unit .bx,.lcd{--w:var(--W);--h:var(--U);--d:calc(var(--D) - 20px)}
+.unit .bx{inset:0;transition:transform var(--d2) var(--ease);animation:rackin .55s var(--ease) backwards;animation-delay:calc(var(--i)*45ms + 60ms)}
+@keyframes rackin{from{transform:translateZ(calc(var(--D)*1.15))}}
+.unit:is(:hover,:focus-visible,.on) .bx{transform:translateZ(var(--pull))}
+.unit .fr{display:flex;align-items:center;gap:12px;padding:0 4px;background:linear-gradient(180deg,var(--rk-face-2),var(--rk-face) 70%);box-shadow:inset 0 1px 0 #ffffff14,inset 0 -2px 0 #0007}
+.unit:focus-visible .fr{box-shadow:inset 0 0 0 3px var(--accent)}
+.unit .lf{background:linear-gradient(180deg,var(--rk-side),color-mix(in srgb,var(--rk-side) 85%,#000)),var(--rk-side);box-shadow:inset 0 1px 0 #ffffff0d}
+.unit .tp{background:linear-gradient(90deg,color-mix(in srgb,var(--rk-top) 70%,#000),var(--rk-top))}
+.ear{flex:none;align-self:stretch;width:14px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:7px 0;background:color-mix(in srgb,var(--rk-face) 70%,var(--rk-metal));}
+.ear i{width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--rk-metal),#0008)}
+.leds{display:flex;flex-direction:column;gap:6px;flex:none}
+.leds i{width:6px;height:6px;border-radius:50%;background:var(--led-a);box-shadow:0 0 8px var(--led-a)}
+.leds i + i{background:var(--led-b);box-shadow:0 0 8px var(--led-b)}
+.leds .la{animation:led var(--bl,1.7s) steps(1) infinite}
+@keyframes led{40%{opacity:.25}}
+.uid{flex:none;font:600 11px var(--font-mono);color:var(--rk-sub);letter-spacing:.06em}
+.tx{display:flex;flex-direction:column;min-width:0;line-height:1}
+.nm{font:800 25px/0.95 var(--font-display);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.sb{font:500 10.5px var(--font-mono);color:var(--rk-sub);letter-spacing:.06em;text-transform:uppercase;margin-top:3px;white-space:nowrap}
+.vent{flex:1;align-self:stretch;margin:11px 0;min-width:30px;background:repeating-linear-gradient(90deg,#0009 0 3px,transparent 3px 7px)}
+.handle{flex:none;width:9px;align-self:stretch;margin:8px 4px 8px 0;border:2px solid var(--rk-metal);border-right:0;border-radius:4px 0 0 4px;opacity:.75}
+.unit:is(:hover,:focus-visible,.on) .handle{border-color:var(--accent);opacity:1}
+/* LCD: the K6 mark lives here, then becomes the readout */
+.lcd{left:0;top:var(--T);width:var(--W);height:calc(var(--U)*2);--h:calc(var(--U)*2)}
+.lcd .fr{display:flex;gap:10px;padding:0 4px;background:linear-gradient(180deg,var(--rk-face-2),var(--rk-face));box-shadow:inset 0 1px 0 #ffffff14}
+.lcd .lf{background:var(--rk-side)}
+.lcd .tp{background:var(--rk-top)}
+.scr{flex:1;margin:12px 0;padding:10px 16px;background:var(--rk-lcd);color:var(--rk-lcd-text);font:500 14px/1.35 var(--font-mono);display:flex;flex-direction:column;justify-content:center;gap:2px;box-shadow:inset 0 0 0 2px #0008,inset 0 0 24px #000;position:relative;overflow:hidden;text-shadow:0 0 10px color-mix(in srgb,var(--rk-lcd-text) 55%,transparent)}
+.scr::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 2px,#0000002e 2px 3px);pointer-events:none}
+.scr .l1{opacity:.75}
+.scr .l2{font:900 44px/.9 var(--font-display);letter-spacing:.02em;display:flex;align-items:center;gap:4px}
+.scr .l2 i{width:.22em;height:.78em;background:currentColor;animation:blink 1.1s steps(1) infinite}
+.scr.say .l2{font:500 13.5px/1.4 var(--font-mono);letter-spacing:0;display:block;min-height:2.8em}
+.scr.say .l2 i{display:inline-block;width:.6em;height:1.05em;vertical-align:-.2em;margin-left:2px}
+.floor{position:absolute;left:50%;bottom:4%;width:min(520px,90%);height:70px;transform:translateX(-46%);background:radial-gradient(closest-side,color-mix(in srgb,var(--ink) 75%,transparent),transparent);filter:blur(6px);z-index:-1}
+.under{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:center;gap:var(--s5);align-items:center;font:600 12px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.under .tp{display:none}
+@media (hover:none){.under .hv{display:none}.under .tp{display:inline}}
+.under button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--fg);background:none;border:1px solid var(--line);padding:6px 10px;cursor:pointer}
+.under button:hover{border-color:var(--fg)}
+
+/* ── selected work ── */
+.work{padding-top:var(--s9)}
+
+/* ── defender by habit ── */
+.defend{padding-top:var(--s10)}
+.defend .lead{font:900 var(--t-d2)/.86 var(--font-display);text-transform:uppercase;margin:0;max-width:15ch}
+.defend .lead em{font-style:normal;color:var(--quote)}
+.log{list-style:none;margin:var(--s7) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s6)}
+.log li{border-top:2px solid var(--fg);padding-top:var(--s4)}
+.log .k{font:600 12px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block}
+.log .found{margin:6px 0 var(--s4);color:var(--muted);text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px}
+.log .fixed{margin:6px 0 0;font-weight:600;font-size:var(--t-body-l);line-height:1.4}
+.after{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s4);margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--line)}
+.after p{margin:0;color:var(--muted);max-width:70ch}
+.after a{font-weight:700;text-underline-offset:5px;text-decoration-thickness:2px}
+.after a:hover{color:var(--accent-text)}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:88px}
+  .name{display:block}
+  .name .nick{font-size:min(36vw,190px);margin-top:.08em}
+  .name .last{text-align:left}
+  .stage{margin:var(--s6) 0 0;height:auto;padding:24px 0 0;perspective:1300px;perspective-origin:50% 20%;display:flex;flex-direction:column;align-items:center;gap:var(--s5)}
+  .rack{--W:min(276px,64vw);--U:46px;--D:150px;--P:14px;--pull:70px;--ry:16deg;--rx:-8deg;margin-left:24px}
+  .under{position:static}
+  .floor{bottom:56px}
+  .work{padding-top:var(--s7)}
+  .nm{font-size:20px}.sb{font-size:9.5px}.vent{min-width:0;background:none}.uid{font-size:10px}
+  .scr .l2{font-size:38px}.scr{padding:8px 12px;font-size:12.5px}.scr.say .l2{font-size:12.5px}
+  .under{gap:var(--s3);flex-wrap:wrap}
+  .log{grid-template-columns:1fr;gap:var(--s5)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="home.html" aria-label="kiyo, home">kiyo<i></i></a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="n" href="work.html">Work</a><a class="n" href="about.html">About</a><a class="n ct" href="#contact">Contact</a>
+      <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+      <a class="res" href="#resume">Resume ↓</a>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+<div class="sheet" aria-label="Menu">
+  <a href="home.html">Home</a><a href="work.html">Work</a><a href="about.html">About</a><a href="#contact">Contact</a>
+  <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+  <p class="sm">Jimenezaerroljj@gmail.com · Imus, Cavite, PH</p>
+</div>
+
+<main id="main">
+<section class="hero wrap" aria-label="Introduction">
+  <div>
+    <p class="status"><span class="on">Available Dec 2026</span><span>Imus, Cavite, PH</span><span>Onsite · Hybrid · Remote</span></p>
+    <h1 class="name"><span class="first">Aerrol John</span><span class="nick"><span class="q">“</span>Kiyo<span class="q">”</span></span><span class="last">Jimenez</span></h1>
+    <p class="role">Cybersecurity + Full-Stack Developer</p>
+    <p class="line">Networking student by degree, full-stack developer by trade, defender by habit.</p>
+    <div class="ctas"><a class="mag p" href="work.html">See<br>the work</a><a class="mag s" href="#resume">Resume<br>PDF ↓</a></div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="rack" id="rack">
+      <div class="back" aria-hidden="true"></div>
+      <div class="bx rwall" aria-hidden="true"><i class="lf"></i></div>
+      <div class="bx post bl" aria-hidden="true"><i class="fr"></i><i class="lf"></i></div>
+      <div class="bx cap top" aria-hidden="true"><i class="fr"></i><i class="lf"></i><i class="tp"></i></div>
+      <div class="bx lcd" aria-hidden="true"><i class="lf"></i><i class="tp"></i>
+        <span class="fr"><span class="ear"><i></i><i></i></span><span class="scr" id="scr"><span class="l1" id="l1">$ whoami</span><span class="l2" id="l2">kiyo<i></i></span></span><span class="ear"><i></i><i></i></span></span>
+      </div>
+      <nav class="units" id="units" aria-label="Projects rack"></nav>
+      <div class="bx cap bot" aria-hidden="true"><i class="fr"></i><i class="lf"></i><i class="tp"></i></div>
+      <div class="bx post fl" aria-hidden="true"><i class="fr"></i><i class="lf"></i></div>
+      <div class="bx post fr_" aria-hidden="true"><i class="fr"></i></div>
+    </div>
+    <div class="floor" aria-hidden="true"></div>
+    <div class="under"><span class="hv">Hover a unit to pull it out · click to open</span><span class="tp">Tap a unit, tap again to open</span><button type="button" id="flat" aria-pressed="false">Flat view</button></div>
+  </div>
+</section>
+
+<div class="band" aria-hidden="true" data-words="Secure web apps|Blue team|Home lab|Full-stack|AI agents|Linux|Networking"></div>
+
+<section class="work wrap" aria-labelledby="sw">
+  <div class="shead rv"><h2 id="sw">Selected work</h2><a href="work.html">All projects →</a></div>
+  <ol class="rows">
+    <li class="row rv"><a href="autoshop.html">
+      <span class="no">01</span><h3 style="view-transition-name:case-title">AutoShop Inventory &amp; POS</h3><span class="go" aria-hidden="true">→</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>A multi-branch auto parts shop tracked stock and sales in Excel sheets that drifted apart.</dd></div><div><dt>Role · stack</dt><dd>Sole developer, freelance (client confidential). Next.js 14, TypeScript, Supabase, Playwright.</dd></div><div><dt>Result</dt><dd>Replaced the Excel workflow, and closed a privilege-escalation path before launch.</dd></div></dl>
+    </a></li>
+    <li class="row rv"><a href="work.html#sovereign">
+      <span class="no">02</span><h3>Sovereign</h3><span class="go" aria-hidden="true">→</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>SOC learning tools either teach nothing or fall apart mid-incident.</dd></div><div><dt>Role · stack</dt><dd>Solo build. Next.js, TypeScript. Case data never leaves the browser.</dd></div><div><dt>Result</dt><dd>One loop: extract IOCs, run queries for Splunk, Elastic and Sentinel, record a verdict, export the report.</dd></div></dl>
+    </a></li>
+    <li class="row rv"><a href="work.html#depedal">
+      <span class="no">03</span><h3>DePedal</h3><span class="go" aria-hidden="true">→</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>Getting around DLSU-D’s large campus mostly means walking in the heat. The campus jeepneys have unpredictable waits and a midday break, and parking is short.</dd></div><div><dt>Role · stack</dt><dd>Built all the software in a team of three: Flutter rider app, React admin, Supabase backend.</dd></div><div><dt>Result</dt><dd>Barcode rider identification, GPS tracking and ride records. ESP32 firmware and the dock lock by my teammates.</dd></div></dl>
+    </a></li>
+  </ol>
+</section>
+
+<section class="defend wrap" aria-labelledby="dh">
+  <h2 class="lead rv" id="dh">Before launch, I <em>attacked</em> my own app.</h2>
+  <ol class="log">
+    <li class="rv"><span class="k">Found</span><p class="found">A role check trusted a profile field that any user can rewrite.</p><span class="k">Fixed</span><p class="fixed">Roles now come from the database only.</p></li>
+    <li class="rv"><span class="k">Found</span><p class="found">Signing up could hand a new account any role it asked for.</p><span class="k">Fixed</span><p class="fixed">New accounts can no longer pick their own role.</p></li>
+    <li class="rv"><span class="k">Found</span><p class="found">Receipts could be rewritten after the sale.</p><span class="k">Fixed</span><p class="fixed">Receipts are immutable once issued.</p></li>
+  </ol>
+  <div class="after rv"><p>Practice: TryHackMe SOC rooms (phishing and suspicious-file triage, Splunk, Wireshark). Certifications from Cisco NetAcad, Microsoft Learn and Anthropic.</p><a href="autoshop.html#audit">Read the full audit →</a></div>
+</section>
+</main>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <p class="big rv">Available<br>Dec 2026<span>.</span></p>
+    <div class="row2">
+      <div>
+        <a class="mail" href="mailto:Jimenezaerroljj@gmail.com">Jimenezaerroljj@gmail.com</a>
+        <p class="meta">Imus, Cavite, PH · Onsite / Hybrid / Remote · <a href="https://www.linkedin.com/in/aerrol-jimenez-116b903b7/">LinkedIn</a> · <a href="https://github.com/KiyoTopKop">GitHub</a></p>
+      </div>
+      <div class="ctas"><a class="mag p" href="mailto:Jimenezaerroljj@gmail.com">Email<br>me</a><a class="mag s" href="#resume" id="resume">Resume<br>PDF ↓</a></div>
+    </div>
+    <div class="foot"><span>© 2026 Aerrol John Jimenez · kiyotopkop.me</span><span><a href="#">How this site is secured</a> · <a href="#">security.txt</a></span></div>
+  </div>
+</footer>
+
+<script src="assets/mock.js"></script>
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  const UNITS = [
+    ["autoshop","AutoShop","inventory · pos","Multi-branch inventory + POS. Roles enforced in the database.","autoshop.html"],
+    ["sovereign","Sovereign","soc workspace","SOC workspace: IR playbooks, tri-SIEM queries, case reports.","work.html#sovereign"],
+    ["depedal","DePedal","bike-sharing","Campus bike-sharing. I built all of the software: app, admin, backend.","work.html#depedal"],
+    ["homelab","Home Lab","casaos · adguard","Old laptop turned home server: AdGuard, NAS, Hermes, game server.","work.html#homelab"],
+    ["hermes","Hermes","ai orchestration","Orchestrator + HR bot that delegate to task bots. Local Qwen3.8-27B.","work.html#hermes"],
+    ["ai","AI Tools","automation","Study assistant, phishing detection and a code assistant.","work.html#ai"],
+  ];
+  const host = document.getElementById("units");
+  host.innerHTML = UNITS.map((u,i)=>`<a class="unit" href="${u[4]}" style="--i:${i};--bl:${(1.3+((i*37)%10)/6).toFixed(2)}s" data-k="${u[0]}"><span class="slot"></span><span class="bx"><i class="lf"></i><i class="tp"></i><span class="fr"><span class="ear"><i></i><i></i></span><span class="leds"><i class="la"></i><i></i></span><span class="uid">U0${i+1}</span><span class="tx"><span class="nm">${u[1]}</span><span class="sb">${u[2]}</span></span><span class="vent"></span><span class="handle"></span><span class="ear"><i></i><i></i></span></span></span><span class="vh">: ${u[3]}</span></a>`).join("");
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const scr = document.getElementById("scr"), l1 = document.getElementById("l1"), l2 = document.getElementById("l2");
+  let typing = 0, back = 0;
+  function say(i){
+    clearTimeout(back); cancelAnimationFrame(typing);
+    if (i == null){ back = setTimeout(()=>{ scr.classList.remove("say"); l1.textContent = "$ whoami"; l2.innerHTML = "kiyo<i></i>"; }, 900); return; }
+    const u = UNITS[i]; scr.classList.add("say"); l1.textContent = `$ cat units/${u[0]}`;
+    if (reduce){ l2.innerHTML = `${u[3]}<i></i>`; return; }
+    const t0 = performance.now(), txt = u[3];
+    (function step(now){ const n = Math.min(txt.length, Math.round((now - t0) / 9)); l2.innerHTML = `${txt.slice(0,n)}<i></i>`; if (n < txt.length) typing = requestAnimationFrame(step); })(t0);
+  }
+  const units = [...host.children];
+  let lastType = "mouse";
+  host.addEventListener("pointerdown", e => lastType = e.pointerType);
+  units.forEach((a,i)=>{
+    a.addEventListener("pointerenter", e => { if (e.pointerType !== "touch") say(i); });
+    a.addEventListener("pointerleave", e => { if (e.pointerType !== "touch") say(null); });
+    a.addEventListener("focus", () => say(i));
+    a.addEventListener("blur", () => say(null));
+    a.addEventListener("click", e => {           // touch: first tap pulls the unit out, second tap opens it
+      if (lastType === "touch" && !a.classList.contains("on")){ e.preventDefault(); units.forEach(x=>x.classList.remove("on")); a.classList.add("on"); say(i); }
+    });
+  });
+  document.addEventListener("pointerdown", e => { if (!e.target.closest(".unit")) units.forEach(x=>x.classList.remove("on")); });
+
+  // plain/flat view: the rack turns to face you and reads as a list
+  const rack = document.getElementById("rack"), flat = document.getElementById("flat");
+  flat.addEventListener("click", () => { rack.classList.add("turn"); setTimeout(() => rack.classList.remove("turn"), 950); const on = rack.classList.toggle("flat"); flat.setAttribute("aria-pressed", on); flat.textContent = on ? "3D view" : "Flat view"; });
+
+  // pointer parallax (fine pointers only, pauses off-screen)
+  if (!reduce && matchMedia("(hover: hover) and (pointer: fine)").matches){
+    const stage = document.getElementById("stage"), hero = stage.parentElement;
+    let tx = 26, ty = -10, x = 26, y = -10, raf = 0, vis = true;
+    new IntersectionObserver(([e]) => vis = e.isIntersecting).observe(stage);
+    hero.addEventListener("pointermove", e => { if (!vis || rack.classList.contains("flat")) return; const r = stage.getBoundingClientRect(); tx = 26 + ((e.clientX - r.left)/r.width - .5)*12; ty = -10 - ((e.clientY - r.top)/r.height - .5)*7; if (!raf) raf = requestAnimationFrame(tick); });
+    hero.addEventListener("pointerleave", () => { tx = 26; ty = -10; if (!raf) raf = requestAnimationFrame(tick); });
+    function tick(){ x += (tx - x)*.08; y += (ty - y)*.08; rack.style.setProperty("--ry", x.toFixed(2)+"deg"); rack.style.setProperty("--rx", y.toFixed(2)+"deg"); raf = (Math.abs(tx-x) + Math.abs(ty-y) > .02) ? requestAnimationFrame(tick) : 0; }
+  }
+})();
+</script>
+</body>
+</html>

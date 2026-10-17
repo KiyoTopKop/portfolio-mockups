@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rackmount · Phase 2 spec</title>
+<meta name="description" content="Phase 2 refined direction for kiyotopkop.me: The Rack + Bold Motion + Kiyo's Desk merged into one system.">
+<script>(function(){var d=document.documentElement,q=new URLSearchParams(location.search),p,t;try{p=q.get("p")||localStorage.getItem("kiyo-palette");t=q.get("t")||localStorage.getItem("kiyo-theme")}catch(e){}d.dataset.palette=/^[abc]$/.test(p)?p:"c";d.dataset.theme=t==="light"||t==="dark"?t:(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");if(q.has("clean"))d.dataset.clean=""})()</script>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Familjen+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.top{padding-top:110px}
+.top .k{font:600 13px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0}
+.top h1{font:900 clamp(96px,17vw,300px)/.78 var(--font-display);text-transform:uppercase;margin:var(--s3) 0 0;letter-spacing:-.01em}
+.top h1 span{color:var(--quote)}
+.concept{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s7);margin-top:var(--s6);align-items:end}
+.concept p{margin:0;font-size:clamp(20px,1.9vw,28px);line-height:1.35;max-width:36ch}
+.open{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:2px solid var(--fg)}
+.open a{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;font:800 30px/1 var(--font-display);text-transform:uppercase}
+.open a:nth-child(odd){padding-right:var(--s4);border-right:1px solid var(--line)}
+.open a:nth-child(even){padding-left:var(--s4)}
+.open a small{font:600 12px var(--font-mono);letter-spacing:.08em;color:var(--muted)}
+.open a:hover{color:var(--accent-text)}
+.tip{margin:var(--s4) 0 0;color:var(--muted);font-size:var(--t-small)}
+.tip b{color:var(--fg)}
+
+.s{padding-top:var(--s10)}
+.s > h2{font:900 var(--t-d2)/.86 var(--font-display);text-transform:uppercase;margin:0 0 var(--s6);border-top:2px solid var(--fg);padding-top:var(--s4);display:flex;justify-content:space-between;gap:var(--s4);align-items:flex-end}
+.s > h2 small{font:600 13px var(--font-mono);letter-spacing:.1em;color:var(--muted);padding-bottom:.5em}
+.lede{font-size:var(--t-body-l);max-width:62ch;margin:0 0 var(--s6);color:var(--muted)}
+
+/* decisions */
+.dec{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s6)}
+.dec li{border-top:1px solid var(--line);padding-top:var(--s4)}
+.dec .q{font:600 12px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dec .a{font:900 clamp(34px,3.6vw,54px)/.9 var(--font-display);text-transform:uppercase;margin:8px 0 var(--s3)}
+.dec .a em{font-style:normal;color:var(--accent-text)}
+.dec p{margin:0 0 .7em;font-size:16px}
+.dec .alt{color:var(--muted)}
+
+/* improvements */
+.imp{list-style:none;margin:0;padding:0;counter-reset:i;columns:2;column-gap:var(--s7)}
+.imp li{counter-increment:i;break-inside:avoid;display:grid;grid-template-columns:44px 1fr;gap:var(--s2);padding:var(--s4) 0;border-top:1px solid var(--line)}
+.imp li::before{content:counter(i,decimal-leading-zero);font:600 13px var(--font-mono);color:var(--accent-text);padding-top:.3em}
+.imp b{display:block}
+.imp span{font-size:16px}
+
+/* page flow */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:2px solid var(--fg)}
+.pg{padding:var(--s4) var(--s4) var(--s5);border-right:1px solid var(--line);position:relative}
+.pg:first-child{padding-left:0}.pg:last-child{border-right:0}
+.pg h3{font:900 clamp(40px,4vw,64px)/.85 var(--font-display);text-transform:uppercase;margin:0}
+.pg .url{font:600 12px var(--font-mono);color:var(--muted);letter-spacing:.06em}
+.pg .sig{margin:var(--s4) 0;padding:10px 12px;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:15px;line-height:1.35}
+.pg .sig small{display:block;font:600 11px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.pg ol{margin:0;padding-left:1.2em;font-size:15px}
+.pg li{padding:3px 0}
+.pg li::marker{font-family:var(--font-mono);color:var(--muted)}
+.always{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--line);font-size:var(--t-small);color:var(--muted)}
+.always b{color:var(--fg)}
+
+/* screens */
+.scr{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:var(--s5);align-items:start;margin-bottom:var(--s8)}
+.scr h3{grid-column:1/-1;font:800 var(--t-d4)/1 var(--font-display);text-transform:uppercase;margin:0;display:flex;gap:var(--s4);align-items:baseline}
+.scr h3 a{font:600 13px var(--font-mono);letter-spacing:.06em;text-transform:none}
+.scr .d{display:grid;gap:var(--s3)}
+.scr img{width:100%;height:auto;border:1px solid var(--line);background:var(--bg-2)}
+.scr .m{display:grid;gap:var(--s3)}
+.scr .m img{border-radius:22px;border:6px solid var(--ink)}
+.scr figcaption{font-size:14px;color:var(--muted);margin-top:4px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
+
+/* tokens */
+.pal{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,4fr) minmax(0,4fr);gap:var(--s5);padding:var(--s5) 0;border-top:1px solid var(--line)}
+.pal h3{font:800 var(--t-d4)/1 var(--font-display);text-transform:uppercase;margin:0 0 4px}
+.pal h3 em{font-style:normal;color:var(--accent-text)}
+.pal .why{font-size:15px;color:var(--muted);margin:6px 0 var(--s3)}
+.wada{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.wada div{aspect-ratio:1/1.15;display:flex;flex-direction:column;justify-content:flex-end;padding:6px;font:600 10px/1.25 var(--font-mono);border:1px solid #0003}
+.mini{background:var(--bg);color:var(--fg);padding:16px 16px 14px;border:1px solid var(--line);position:relative}
+.mini .t{font:600 11px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+.mini .n{font:900 56px/.8 var(--font-display);text-transform:uppercase;margin:10px 0 6px}
+.mini .n span{color:var(--quote)}
+.mini .r{font-weight:700;color:var(--role);font-size:15px}
+.mini .b{font-size:14px;margin:4px 0 0}
+.mini .mu{font-size:14px;color:var(--muted);margin:0}
+.mini .row3{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.mini .btn{background:var(--accent);color:var(--on-accent);font-weight:700;font-size:13px;padding:6px 10px}
+.mini .lk{color:var(--accent-text);font-weight:700;font-size:13px;text-decoration:underline}
+.mini .leds{display:flex;gap:6px;margin-left:auto}
+.mini .leds i{width:8px;height:8px;border-radius:50%;background:var(--led-a);box-shadow:0 0 6px var(--led-a)}
+.mini .leds i+i{background:var(--led-b);box-shadow:0 0 6px var(--led-b)}
+.mini .sw{display:flex;gap:3px;margin-top:10px}
+.mini .sw i{flex:1;height:14px;border:1px solid #0002}
+.mini table{width:100%;border-collapse:collapse;margin-top:10px;font:500 11px var(--font-mono);color:var(--muted)}
+.mini td{padding:2px 0;border-top:1px solid var(--line)}
+.mini td:last-child{text-align:right;color:var(--fg)}
+.tok{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px var(--s6);margin-top:var(--s6);font-size:14px}
+.tok div{display:grid;grid-template-columns:120px 1fr;gap:var(--s2);padding:6px 0;border-top:1px solid var(--line)}
+.tok code{font:600 12px var(--font-mono);color:var(--accent-text)}
+
+/* type */
+.ty{display:grid;grid-template-columns:200px minmax(0,1fr);gap:var(--s2) var(--s5);align-items:baseline;padding:var(--s3) 0;border-top:1px solid var(--line)}
+.ty .lbl{font:600 12px/1.5 var(--font-mono);color:var(--muted);letter-spacing:.04em}
+.ty .lbl b{color:var(--fg);display:block}
+.ty .sp{overflow:hidden;white-space:nowrap;text-overflow:clip}
+
+/* motion */
+.mo{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--s7)}
+.mo li{padding:var(--s4) 0;border-top:1px solid var(--line)}
+.mo b{display:block;font:800 22px/1.1 var(--font-display);text-transform:uppercase;letter-spacing:.01em;margin-bottom:4px}
+.mo span{font-size:16px}
+.mo code{font:500 13px var(--font-mono);color:var(--accent-text)}
+
+/* asks */
+.ask{list-style:none;margin:0;padding:0;counter-reset:a}
+.ask li{counter-increment:a;display:grid;grid-template-columns:64px 1fr;gap:var(--s3);padding:var(--s5) 0;border-top:1px solid var(--line)}
+.ask li::before{content:counter(a);font:900 54px/.8 var(--font-display);color:var(--quote)}
+.ask b{display:block;font-size:var(--t-body-l)}
+.ask span{color:var(--muted)}
+
+@media (max-width:900px){
+  .top{padding-top:92px}
+  .concept,.dec,.pal{grid-template-columns:1fr}
+  .open{grid-template-columns:1fr}.open a:nth-child(odd){border-right:0;padding-right:0}.open a:nth-child(even){padding-left:0}
+  .imp{columns:1}
+  .flow{grid-template-columns:1fr}.pg{padding:var(--s4) 0;border-right:0;border-bottom:1px solid var(--line)}
+  .scr{grid-template-columns:1fr}.scr .m{grid-template-columns:1fr 1fr}
+  .tok{grid-template-columns:1fr}
+  .ty{grid-template-columns:1fr}
+  .mo{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="Spec sheet">kiyo<i></i></a>
+    <nav class="nav-links" aria-label="Pages">
+      <a class="n" href="home.html">Home</a><a class="n" href="work.html">Work</a><a class="n ct" href="about.html">About</a>
+      <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+      <a class="res" href="home.html">Open site →</a>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+<div class="sheet" aria-label="Menu">
+  <a href="home.html">Home</a><a href="work.html">Work</a><a href="autoshop.html">Case</a><a href="about.html">About</a>
+  <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+</div>
+
+<main id="main">
+<section class="top wrap">
+  <p class="k">Phase 2 · refined direction · kiyotopkop.me</p>
+  <h1>Rackmount<span>.</span></h1>
+  <div class="concept">
+    <p>A server room on the night shift, set in poster type. Every project is a unit in a rack, the name is set like a gig poster, and the About page is the desk the rack sits next to.</p>
+    <div>
+      <div class="open"><a href="home.html">Home <small>rack</small></a><a href="work.html">Work <small>weight</small></a><a href="autoshop.html">Case <small>motion</small></a><a href="about.html">About <small>desk</small></a></div>
+      <p class="tip">These are working pages, not pictures. Use the <b>review bar</b> (bottom right) on any page to switch palette and theme.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s wrap" id="answers">
+  <h2>Your three answers <small>01</small></h2>
+  <p class="lede">The three answers came through as blank placeholders, so I picked for you and kept every option switchable. Tell me if you want any of them changed.</p>
+  <ol class="dec">
+    <li><span class="q">Palette</span><p class="a">New combo: <em>#303</em></p>
+      <p>Deep Slate Olive, Naples Yellow, Peach Red and Neutral Gray. It keeps Bold Motion's peach red and drops the black and purple that most dev portfolios use. Olive reads as field kit, which suits “defender by habit”, and the rack's hardware looks right in it.</p>
+      <p class="alt">#295 Rack violet and #298 Poster red are one click away in the review bar.</p></li>
+    <li><span class="q">Theme</span><p class="a">Dark <em>+</em> light</p>
+      <p>Dark is the default (“lights off”): the rack's LEDs and the monitor glow carry the mood. Light follows the visitor's system setting, or the <b>Lights</b> switch in the nav. On the About page the desk lamp is the switch.</p>
+      <p class="alt">Cost: one extra token set per palette. Everything passes WCAG AA in both.</p></li>
+    <li><span class="q">Layout</span><p class="a">Multi-page</p>
+      <p>Home, Work (plus a case page per project) and About. That gives each of your three picks its own page, which keeps the “one signature effect per page” rule. A recruiter still gets name, role, projects and contact on Home without clicking.</p>
+      <p class="alt">One long page would have meant three big effects stacked on one scroll.</p></li>
+  </ol>
+</section>
+
+<section class="s wrap" id="improved">
+  <h2>What I improved <small>02</small></h2>
+  <ol class="imp">
+    <li><span><b>The rack is now CSS 3D, not WebGL.</b>Every unit is a real link: keyboard, screen readers and search engines can use it. No Three.js download (about 600 KB before compression), and the same rack runs on phones.</span></li>
+    <li><span><b>One unit per project.</b>Six units for six projects. AdGuard and the local model moved inside Home Lab and Hermes instead of taking their own slots.</span></li>
+    <li><span><b>Your K6 logo lives in the rack.</b>The LCD shows <code>$ whoami → kiyo</code>. Hover a unit and the LCD types out that project's one-liner, so there's no floating tooltip.</span></li>
+    <li><span><b>Racking intro, touch rules, flat view.</b>Units slide into the rack on load in under 0.9 s. On phones, the first tap pulls a unit out and the second opens it. “Flat view” turns the rack to face you (the plain-view rule).</span></li>
+    <li><span><b>Bold Motion's type, moved where it works.</b>The name is set poster-style next to the rack. The cursor-weight effect became the Work index signature, and on phones the weight follows scroll position in pure CSS.</span></li>
+    <li><span><b>A security hook on Home.</b>“Before launch, I attacked my own app”: real found/fixed pairs from the AutoShop audit, checked against the seven migrations. The full audit is on the case page.</span></li>
+    <li><span><b>The desk earns its place.</b>It's redrawn as a night scene in the site palette (monitor glow, a router-to-laptop cable with packets). Its objects now hold the About content (certifications, school, languages, home lab, Hermes, SOC practice) instead of repeating the projects.</span></li>
+    <li><span><b>Phones get their own layout.</b>The name stacks, the rack shrinks and stays tappable, and the desk becomes a bigger, swipeable scene with cropped legs. Case-study motion pieces get a 9:16 cut in Phase 4.</span></li>
+    <li><span><b>Title morph between pages.</b>The AutoShop title on Home and Work morphs into the case-study title using View Transitions. Browsers without support just load the page normally.</span></li>
+    <li><span><b>Honest copy.</b>The Work page says up front that the repos are private and offers a walkthrough. Teammates are credited by name on DePedal.</span></li>
+  </ol>
+</section>
+
+<section class="s wrap" id="flow">
+  <h2>Page flow <small>03</small></h2>
+  <div class="flow">
+    <div class="pg"><h3>Home</h3><span class="url">/</span>
+      <p class="sig"><small>Signature</small>The rack: pull-out units, LCD readout</p>
+      <ol><li>Hero: name, role, line, CTAs, rack</li><li>Marquee band</li><li>Selected work: three rows with problem, role, stack and result</li><li>Before launch, I attacked my own app</li><li>Contact</li></ol></div>
+    <div class="pg"><h3>Work</h3><span class="url">/work</span>
+      <p class="sig"><small>Signature</small>Titles thin and glow under the cursor (scroll on phones)</p>
+      <ol><li>WORK. + why there are no repo links</li><li>Six project rows, each with problem, role, stack and result</li><li>Contact</li></ol></div>
+    <div class="pg"><h3>Case</h3><span class="url">/work/autoshop …</span>
+      <p class="sig"><small>Signature</small>The project's motion mock-up</p>
+      <ol><li>Title, summary, role, client, dates, stack</li><li>Motion mock-up (demo data)</li><li>Problem → My role → Approach → (Audit) → Result → Links</li><li>Next case</li><li>Contact</li></ol></div>
+    <div class="pg"><h3>About</h3><span class="url">/about</span>
+      <p class="sig"><small>Signature</small>The desk: clickable objects, lamp = lights</p>
+      <ol><li>Hi, I'm Kiyo + bio + desk</li><li>Experience</li><li>Education</li><li>Certifications + LinkedIn verify</li><li>Stack &amp; tools</li><li>Languages</li><li>Contact</li></ol></div>
+  </div>
+  <p class="always"><b>On every page:</b> the nav (Work · About · Contact · Lights · Resume) and the contact footer (Available Dec 2026, email, LinkedIn, GitHub, Resume PDF, “How this site is secured”, security.txt).</p>
+</section>
+
+<section class="s wrap" id="screens">
+  <h2>Desktop + mobile <small>04</small></h2>
+  <p class="lede">Palette #303, dark theme, except where marked. Desktop at 1440 × 900, phone at 390 × 844.</p>
+  <figure class="scr"><h3>Home <a href="home.html">open →</a></h3>
+    <div class="d"><img src="shots/home-d.jpg" alt="Home, desktop: poster-type name beside a 3D server rack" loading="lazy"><div class="duo"><img src="shots/home-d-hover.jpg" alt="Home, desktop: AutoShop unit pulled out, LCD showing its one-liner" loading="lazy"><img src="shots/home-d-3.jpg" alt="Home, desktop: Before launch, I attacked my own app" loading="lazy"></div><figcaption>First screen · hovering a unit · the security section</figcaption></div>
+    <div class="m"><img src="shots/home-m.jpg" alt="Home, phone: first screen" loading="lazy"><img src="shots/home-m-2.jpg" alt="Home, phone: the rack" loading="lazy"></div>
+  </figure>
+  <figure class="scr"><h3>Work <a href="work.html">open →</a></h3>
+    <div class="d"><img src="shots/work-d.jpg" alt="Work, desktop: project titles with letters thinning near the cursor" loading="lazy"><figcaption>The cursor is over “Inventory”: nearby letters go thin and turn peach red.</figcaption></div>
+    <div class="m"><img src="shots/work-m.jpg" alt="Work, phone: the row in the middle of the screen is heaviest" loading="lazy"></div>
+  </figure>
+  <figure class="scr"><h3>Case study <a href="autoshop.html">open →</a></h3>
+    <div class="d"><img src="shots/case-d.jpg" alt="AutoShop case study, desktop: title, summary and meta" loading="lazy"><img src="shots/case-d-2.jpg" alt="AutoShop case study, desktop: approach and audit" loading="lazy"></div>
+    <div class="m"><img src="shots/case-m.jpg" alt="AutoShop case study, phone" loading="lazy"></div>
+  </figure>
+  <figure class="scr"><h3>About <a href="about.html">open →</a></h3>
+    <div class="d"><img src="shots/about-d.jpg" alt="About, desktop: night desk with the SOC practice note open" loading="lazy"><img src="shots/about-l.jpg" alt="About, desktop, light theme: the lamp is on" loading="lazy"><figcaption>Lights off with a desk note open · lights on (light theme)</figcaption></div>
+    <div class="m"><img src="shots/about-m.jpg" alt="About, phone: swipeable desk" loading="lazy"><img src="shots/home-m-l.jpg" alt="Home, phone, light theme" loading="lazy"></div>
+  </figure>
+</section>
+
+<section class="s wrap" id="tokens">
+  <h2>Color tokens <small>05</small></h2>
+  <p class="lede">Every color is a Sanzo Wada combination color, or a tint or shade of one where a surface or an AA text color needed it. Numbers are WCAG contrast ratios: 4.5 for text, 3 for large display type.</p>
+  <div id="pals"></div>
+  <div class="tok">
+    <div><code>--bg / --bg-2</code><span>Page, and the footer and sunken areas</span></div>
+    <div><code>--surface(-2)</code><span>Panels and the desk pegboard</span></div>
+    <div><code>--line</code><span>Rules and dividers</span></div>
+    <div><code>--fg</code><span>Text and display type</span></div>
+    <div><code>--muted</code><span>Secondary text and labels</span></div>
+    <div><code>--accent</code><span>CTAs, marquee band, highlights</span></div>
+    <div><code>--accent-text</code><span>Accent used as small text (AA)</span></div>
+    <div><code>--quote</code><span>The quote marks in “KIYO”</span></div>
+    <div><code>--role</code><span>The role line under the name</span></div>
+    <div><code>--led-a / -b</code><span>Rack LEDs and status dots</span></div>
+    <div><code>--rk-*</code><span>Rack hardware: stays dark in both themes</span></div>
+    <div><code>--m-ok/warn/bad</code><span>Mock UI states (bad = blocked attack)</span></div>
+  </div>
+</section>
+
+<section class="s wrap" id="type">
+  <h2>Type scale <small>06</small></h2>
+  <p class="lede">Big Shoulders Display (variable, 100–900) for display type, Familjen Grotesk for text, JetBrains Mono only for terminal bits and small labels. Sizes are fluid between a 390 px phone and a 1440 px desktop. Body never goes below 17 px.</p>
+  <div class="ty"><span class="lbl"><b>--t-hero</b>150 → 300 · 900 · lh .76</span><span class="sp display" style="font-size:var(--t-hero);font-weight:900;line-height:.76"><span style="color:var(--quote)">“</span>Kiyo<span style="color:var(--quote)">”</span></span></div>
+  <div class="ty"><span class="lbl"><b>--t-d1</b>76 → 184 · 900 · page titles</span><span class="sp display" style="font-size:var(--t-d1);font-weight:900">Work.</span></div>
+  <div class="ty"><span class="lbl"><b>--t-d2</b>46 → 112 · 850 · index rows</span><span class="sp display" style="font-size:var(--t-d2);font-weight:850">Sovereign</span></div>
+  <div class="ty"><span class="lbl"><b>--t-d3</b>34 → 64 · 800 · name lines</span><span class="sp display" style="font-size:var(--t-d3)">Aerrol John</span></div>
+  <div class="ty"><span class="lbl"><b>--t-d4</b>26 → 36 · 800 · sub-heads</span><span class="sp display" style="font-size:var(--t-d4)">The audit</span></div>
+  <div class="ty"><span class="lbl"><b>--t-role</b>20 → 26 · Familjen 700</span><span class="sp" style="font:700 var(--t-role)/1.2 var(--font-body);color:var(--role)">Cybersecurity + Full-Stack Developer</span></div>
+  <div class="ty"><span class="lbl"><b>--t-body-l / --t-body</b>19–21 / 18 (17 on phones) · lh 1.6</span><span style="font-size:var(--t-body-l);max-width:62ch">Networking student by degree, full-stack developer by trade, defender by habit. Body copy stays under about 70 characters a line.</span></div>
+  <div class="ty"><span class="lbl"><b>--t-mono</b>12–13 · JetBrains Mono</span><span class="mono" style="text-transform:uppercase;letter-spacing:.1em;color:var(--muted)">$ whoami → kiyo · U01 · Found / Fixed</span></div>
+</section>
+
+<section class="s wrap" id="motion">
+  <h2>Motion rules <small>07</small></h2>
+  <ul class="mo">
+    <li><b>One signature per page</b><span>Home: the rack. Work: weight-reactive titles. Case: the project's motion piece. About: the desk. Nothing else gets to be loud.</span></li>
+    <li><b>Supporting motion only</b><span>The marquee (pauses off-screen and on hover), magnetic CTAs (mouse only), 24 px fade-up reveals, and the title morph between pages.</span></li>
+    <li><b>One easing, three speeds</b><span><code>cubic-bezier(.2,.8,.2,1)</code> at 150 ms for hovers, 300 ms for UI, 600 ms for reveals. The spring curve is only for the desk objects and the lights switch.</span></li>
+    <li><b>Short intros, no loaders</b><span>The rack's racking-in intro is the longest, at 0.84 s. Content is readable from the first frame.</span></li>
+    <li><b>Never hijack the scroll</b><span>Native scrolling everywhere. Scroll-linked effects (the phone weight effect) are CSS scroll timelines, so the browser keeps control of the scroll.</span></li>
+    <li><b>Reduced motion = static and complete</b><span>With <code>prefers-reduced-motion</code>, all animation and transitions stop, the rack sits still with its links working, and the title morph is off.</span></li>
+    <li><b>Pause what you can't see</b><span>The marquee and the rack's parallax stop when off-screen. Nothing runs a loop while idle.</span></li>
+    <li><b>Touch is not hover</b><span>Effects that need a mouse (magnetic buttons, cursor weight, parallax) turn off on touch screens, and each one has a touch version or none.</span></li>
+  </ul>
+</section>
+
+<section class="s wrap" id="next">
+  <h2>Decided <small>08</small></h2>
+  <ol class="ask">
+    <li><span><b>Direction approved.</b><span>The real site keeps the Lights switch and also lets visitors pick the palette (#303 olive by default, #295 violet, #298 red).</span></span></li>
+    <li><span><b>TopServe copy fixed.</b><span>Kiyo made and presented the slide decks. DePedal and the stack list now match the resume.</span></span></li>
+    <li><span><b>Resume received, not published.</b><span>It lists a phone number and names the AutoShop client, so the site will link a web-safe version without either.</span></span></li>
+    <li><span><b>Published here.</b><span>kiyotopkop.github.io/portfolio-mockups/refined/</span></span></li>
+  </ol>
+</section>
+</main>
+
+<footer class="contact" id="contact" style="margin-top:var(--s9)">
+  <div class="wrap">
+    <p class="big">Then<br>Phase 3<span>.</span></p>
+    <p class="meta" style="max-width:60ch">Build: Astro (static, zero JS by default, easy strict CSP), the rack and desk as they are here (CSS 3D and inline SVG, no Three.js), and a little vanilla JS. Hosted static with security headers aiming for an A on securityheaders.com.</p>
+    <div class="foot"><span>Phase 2 spec · 2026-10-17</span><span><a href="home.html">Open the site →</a></span></div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  const C = {"a-dark":{"fg/bg":15.06,"muted/bg":8.61,"accent-text/bg":15.09,"on-accent/accent":15.09,"quote/bg (large)":10.78},"a-light":{"fg/bg":15.76,"muted/bg":7.91,"accent-text/bg":6.23,"on-accent/accent":5.35,"quote/bg (large)":4.78},"b-dark":{"fg/bg":16.25,"muted/bg":8.35,"accent-text/bg":6.74,"on-accent/accent":5.54,"quote/bg (large)":5.54},"b-light":{"fg/bg":16.25,"muted/bg":6.86,"accent-text/bg":5.69,"on-accent/accent":5.54,"quote/bg (large)":3.84},"c-dark":{"fg/bg":11.33,"muted/bg":7.27,"accent-text/bg":5.89,"on-accent/accent":4.76,"quote/bg (large)":4.05},"c-light":{"fg/bg":11.74,"muted/bg":6.03,"accent-text/bg":5.62,"on-accent/accent":4.76,"quote/bg (large)":3.9}};
+  const P = [
+    ["c","#303 Field olive","recommended","Deep Slate Olive, Naples Yellow, Peach Red, Neutral Gray. New, and nobody else's portfolio color.",[["Deep Slate Olive","#253122","#fbe6a0"],["Naples Yellow","#fbe6a0","#253122"],["Peach Red","#f15a30","#1b2419"],["Neutral Gray","#b6bfc1","#253122"]]],
+    ["a","#295 Rack violet","","Dull Violet Black, Blue, Cream Yellow, Yellow. The Rack mockup's palette.",[["Dull Violet Black","#1e0e3f","#fdbf68"],["Blue","#006eb8","#fff"],["Cream Yellow","#fdbf68","#1e0e3f"],["Yellow","#fff200","#1e0e3f"]]],
+    ["b","#298 Poster red","","Black, Peach Red, Lemon Yellow, Raw Sienna. The Bold Motion mockup's palette.",[["Black","#111314","#f8ed43"],["Peach Red","#f15a30","#111314"],["Lemon Yellow","#f8ed43","#111314"],["Raw Sienna","#bb7125","#111314"]]],
+  ];
+  const mini = (p, t) => `<div class="mini" data-palette="${p}" data-theme="${t}"><div class="t"><span>${t === "dark" ? "Lights off" : "Lights on"}</span><span class="leds"><i></i><i></i></span></div><p class="n"><span>“</span>Kiyo<span>”</span></p><p class="r">Cybersecurity + Full-Stack Developer</p><p class="b">Body text on the page background.</p><p class="mu">Muted text for labels and meta.</p><div class="row3"><span class="btn">See the work</span><span class="lk">Accent link</span></div><div class="sw"><i style="background:var(--bg)"></i><i style="background:var(--bg-2)"></i><i style="background:var(--surface)"></i><i style="background:var(--line)"></i><i style="background:var(--fg)"></i><i style="background:var(--muted)"></i><i style="background:var(--accent)"></i><i style="background:var(--role)"></i></div><table>${Object.entries(C[p + "-" + t]).map(([k, v]) => `<tr><td>${k}</td><td>${v.toFixed(2)}</td></tr>`).join("")}</table></div>`;
+  document.getElementById("pals").innerHTML = P.map(([k, n, rec, why, sw]) => `<div class="pal"><div><h3>${n}${rec ? ` <em>· ${rec}</em>` : ""}</h3><p class="why">${why}</p><div class="wada">${sw.map(([nm, hx, ink]) => `<div style="background:${hx};color:${ink}"><span>${nm}</span><span>${hx}</span></div>`).join("")}</div></div>${mini(k, "dark")}${mini(k, "light")}</div>`).join("");
+})();
+</script>
+</body>
+</html>

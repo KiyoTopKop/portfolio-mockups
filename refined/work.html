@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work · Kiyo Jimenez</title>
+<meta name="description" content="Projects by Aerrol John “Kiyo” Jimenez: secure web apps, SOC tooling, a home lab and AI automation.">
+<script>(function(){var d=document.documentElement,q=new URLSearchParams(location.search),p,t;try{p=q.get("p")||localStorage.getItem("kiyo-palette");t=q.get("t")||localStorage.getItem("kiyo-theme")}catch(e){}d.dataset.palette=/^[abc]$/.test(p)?p:"c";d.dataset.theme=t==="light"||t==="dark"?t:(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");if(q.has("clean"))d.dataset.clean=""})()</script>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Familjen+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.intro{padding-top:132px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,34ch);gap:var(--s6);align-items:end}
+.intro h1{font:900 clamp(120px,23vw,380px)/.76 var(--font-display);text-transform:uppercase;margin:0;letter-spacing:-.01em}
+.intro h1 span{color:var(--quote)}
+.intro p{margin:0 0 .6em;color:var(--muted);font-size:var(--t-body-l)}
+.intro p b{color:var(--fg)}
+.index{margin-top:var(--s9)}
+/* the signature: titles answer the cursor (desktop) or the scroll position (touch) */
+.row h2{font:850 var(--t-d2)/.86 var(--font-display);text-transform:uppercase;margin:0}
+.wt span{display:inline-block;font-weight:850;transition:font-weight .35s var(--ease),color .35s var(--ease)}
+.row a:hover h2{transform:none;color:inherit}
+.row .tag{grid-column:2;display:inline-flex;gap:var(--s4);margin-top:var(--s4);font:600 12px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.row .tag b{color:var(--accent-text);font-weight:600}
+.credits{grid-column:2;margin:var(--s4) 0 0;font-size:var(--t-small);color:var(--muted)}
+.note{margin-top:var(--s7);color:var(--muted);font-size:var(--t-small);max-width:70ch}
+@media (hover:none){
+  @supports (animation-timeline:view()){
+    .wt span{transition:none}
+    .wt{animation:wght linear both;animation-timeline:view();animation-range:entry 20% exit 80%}
+    .wt span{font-weight:inherit}
+    @keyframes wght{0%{font-weight:200}45%,55%{font-weight:900;color:var(--accent-text)}100%{font-weight:200}}
+  }
+}
+@media (max-width:900px){
+  .intro{grid-template-columns:1fr;padding-top:104px;gap:var(--s4)}
+  .intro h1{font-size:34vw}
+  .index{margin-top:var(--s7)}
+  .row .tag,.credits{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="home.html" aria-label="kiyo, home">kiyo<i></i></a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="n" href="work.html" aria-current="page">Work</a><a class="n" href="about.html">About</a><a class="n ct" href="#contact">Contact</a>
+      <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+      <a class="res" href="#resume">Resume ↓</a>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+<div class="sheet" aria-label="Menu">
+  <a href="home.html">Home</a><a href="work.html">Work</a><a href="about.html">About</a><a href="#contact">Contact</a>
+  <button class="lights" type="button" aria-pressed="false"><span class="sw" aria-hidden="true"></span><span class="lbl">Lights off</span></button>
+  <p class="sm">Jimenezaerroljj@gmail.com · Imus, Cavite, PH</p>
+</div>
+
+<main id="main">
+<section class="intro wrap">
+  <h1>Work<span>.</span></h1>
+  <p>Every repo here is private. So instead of screenshots, each project gets <b>a motion mock-up built from demo data</b>, and I'm happy to walk you through the real thing.</p>
+</section>
+
+<section class="index wrap" aria-label="Projects">
+  <ol class="rows" id="rows">
+    <li class="row" id="autoshop"><a href="autoshop.html">
+      <span class="no">01</span><h2 class="wt" style="view-transition-name:case-title">AutoShop Inventory &amp; POS</h2><span class="go" aria-hidden="true">→</span>
+      <span class="tag"><b>Freelance</b> 2025 – present · client confidential</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>A multi-branch auto parts shop tracked stock and sales in Excel sheets that drifted apart.</dd></div><div><dt>Role · stack</dt><dd>Sole developer. Next.js 14, TypeScript, Supabase + RLS, Edge Functions, Playwright.</dd></div><div><dt>Result</dt><dd>Replaced the Excel workflow, and closed a privilege-escalation path and data-loss bugs before launch.</dd></div></dl>
+    </a></li>
+    <li class="row" id="sovereign"><a href="#sovereign">
+      <span class="no">02</span><h2 class="wt">Sovereign</h2><span class="go" aria-hidden="true">→</span>
+      <span class="tag"><b>Personal</b> SOC analyst workspace</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>SOC learning tools either teach nothing or fall apart in the middle of an incident.</dd></div><div><dt>Role · stack</dt><dd>Solo build. Next.js, TypeScript. No backend: case data stays in the browser.</dd></div><div><dt>Result</dt><dd>One loop: extract IOCs, run queries for Splunk, Elastic and Sentinel, record a verdict, export the report.</dd></div></dl>
+    </a></li>
+    <li class="row" id="depedal"><a href="#depedal">
+      <span class="no">03</span><h2 class="wt">DePedal</h2><span class="go" aria-hidden="true">→</span>
+      <span class="tag"><b>Capstone</b> team of three</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>Getting around DLSU-D’s large campus mostly means walking in the heat. The campus jeepneys have unpredictable waits and a midday break, and parking is short.</dd></div><div><dt>Role · stack</dt><dd>I built all the software: Flutter rider app, React admin dashboard, Supabase backend.</dd></div><div><dt>Result</dt><dd>Barcode rider identification, GPS tracking and ride records, working end to end.</dd></div></dl>
+      <p class="credits">ESP32 firmware by Marc Jacob C. Lentejas. Dock lock by Dylan Paulo F. Nicol.</p>
+    </a></li>
+    <li class="row" id="homelab"><a href="#homelab">
+      <span class="no">04</span><h2 class="wt">CasaOS Home Lab</h2><span class="go" aria-hidden="true">→</span>
+      <span class="tag"><b>Personal</b> April 2026 – present</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>An old laptop doing nothing, and a home network with no filtering.</dd></div><div><dt>Role · stack</dt><dd>Built and run it myself. CasaOS on Linux, AdGuard, a NAS.</dd></div><div><dt>Result</dt><dd>It serves DNS filtering (adult and gambling domains blocked, approved devices only), a NAS, Hermes and a game server.</dd></div></dl>
+    </a></li>
+    <li class="row" id="hermes"><a href="#hermes">
+      <span class="no">05</span><h2 class="wt">Hermes AI Orchestration</h2><span class="go" aria-hidden="true">→</span>
+      <span class="tag"><b>Personal</b> runs locally</span>
+      <dl class="facts"><div><dt>Problem</dt><dd>Getting several AI bots to split work instead of one bot doing everything.</dd></div><div><dt>Role · stack</dt><dd>Designed and run it. Hermes, with Qwen3.8-27B as the local model.</dd></div><div><dt>Result</dt><dd>A main orchestrator and an HR bot that hand tasks to task-specific bots.</dd></div></dl>
+    </a></li>
+    <li class="row" id="ai"><a href="#ai">
+      <span class="no">06</span><h2 class="wt">AI Automation</h2><span class="go" aria-hidden="true">→</span>
+      <span class="tag"><b>Personal</b> built and working</span>
+      <dl class="facts"><div><dt>Study assistant</dt><dd>Turns PDFs, notes and slides into summaries, flashcards and quizzes.</dd></div><div><dt>Phishing detection</dt><dd>Flags suspicious email patterns, domains and links.</dd></div><div><dt>Code assistant</dt><dd>Writes boilerplate, explains code and suggests refactors.</dd></div></dl>
+    </a></li>
+  </ol>
+  <p class="note">Phase 2 note: only the AutoShop case study is mocked here. The other five use the same case-study template in the build.</p>
+</section>
+</main>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <p class="big rv">Available<br>Dec 2026<span>.</span></p>
+    <div class="row2">
+      <div>
+        <a class="mail" href="mailto:Jimenezaerroljj@gmail.com">Jimenezaerroljj@gmail.com</a>
+        <p class="meta">Imus, Cavite, PH · Onsite / Hybrid / Remote · <a href="https://www.linkedin.com/in/aerrol-jimenez-116b903b7/">LinkedIn</a> · <a href="https://github.com/KiyoTopKop">GitHub</a></p>
+      </div>
+      <div class="ctas"><a class="mag p" href="mailto:Jimenezaerroljj@gmail.com">Email<br>me</a><a class="mag s" href="#resume" id="resume">Resume<br>PDF ↓</a></div>
+    </div>
+    <div class="foot"><span>© 2026 Aerrol John Jimenez · kiyotopkop.me</span><span><a href="#">How this site is secured</a> · <a href="#">security.txt</a></span></div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  // split titles into letters (the link keeps an accessible name)
+  const titles = [...document.querySelectorAll(".wt")];
+  titles.forEach(h => {
+    const txt = h.textContent; h.setAttribute("aria-label", txt);
+    h.innerHTML = txt.split(/(\s+)/).map(w => /\s/.test(w) ? " " : `<span class="w" style="display:inline-block;white-space:nowrap">${[...w].map(c => `<span aria-hidden="true">${c}</span>`).join("")}</span>`).join("");
+  });
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const letters = titles.flatMap(h => [...h.querySelectorAll("span[aria-hidden]")]);
+  let pts = [], raf = 0, px = -1e4, py = -1e4;
+  const measure = () => { pts = letters.map(l => { const r = l.getBoundingClientRect(); return [r.left + r.width / 2 + scrollX, r.top + r.height / 2 + scrollY]; }); };
+  measure(); addEventListener("resize", measure); document.fonts && document.fonts.ready.then(measure);
+  const R = 300;
+  function paint(){
+    raf = 0;
+    letters.forEach((l, i) => {
+      const d = Math.hypot(px - pts[i][0], py - pts[i][1]), k = Math.min(1, d / R);
+      const w = Math.round(160 + 690 * k * k);
+      l.style.fontWeight = w; l.style.color = k < .38 ? "var(--accent-text)" : "";
+    });
+  }
+  const list = document.getElementById("rows");
+  list.addEventListener("pointermove", e => { px = e.pageX; py = e.pageY; if (!raf) raf = requestAnimationFrame(paint); });
+  list.addEventListener("pointerleave", () => { px = py = -1e4; if (!raf) raf = requestAnimationFrame(paint); });
+})();
+</script>
+</body>
+</html>
