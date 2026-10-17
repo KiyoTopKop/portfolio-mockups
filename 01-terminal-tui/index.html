@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal TUI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Sanzo Wada combo #166: Deep Slate Green, Naples Yellow, Grenadine Pink */
+:root{--bg:#112f2c;--bg2:#0c2421;--bg3:#163a36;--fg:#fbe6a0;--fg2:#d9cfa6;--dim:#93a89c;--line:#2b524c;--pink:#f48067;--teal:#7cc7b8}
+*{box-sizing:border-box}
+html{background:var(--bg2)}
+body{margin:0;background:var(--bg2);color:var(--fg);font:15.5px/1.6 "JetBrains Mono",monospace;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+a{color:var(--pink)}
+.tmux{height:calc(100vh - 40px);min-height:620px;display:grid;grid-template-columns:1.55fr 1fr;grid-template-rows:auto 1fr;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.pane{background:var(--bg);padding:14px 20px;overflow:hidden;position:relative;animation:split .5s cubic-bezier(.2,.8,.2,1) both}
+.pane:nth-child(2){animation-delay:.12s}.pane:nth-child(3){animation-delay:.24s}
+@keyframes split{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.pane .ttl{position:absolute;top:0;right:12px;font-size:12px;color:var(--dim);background:var(--bg);padding:0 6px}
+.pane.main{grid-row:1 / 3;display:flex;flex-direction:column;justify-content:center;padding:40px 48px}
+.p{color:var(--dim)}.p b{color:var(--pink);font-weight:700}
+.big{font-weight:800;font-size:clamp(44px,6.6vw,104px);line-height:.92;letter-spacing:-.045em;margin:18px 0 0;color:var(--fg);text-shadow:4px 4px 0 var(--bg3),5px 5px 0 var(--line)}
+.big .nk{color:var(--pink)}
+.role{font:600 21px "IBM Plex Sans",sans-serif;margin:22px 0 4px;color:var(--fg)}
+.line{font:400 18px/1.55 "IBM Plex Sans",sans-serif;color:var(--fg2);max-width:46ch;margin:0}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.k{font:700 15px "JetBrains Mono";text-decoration:none;color:var(--fg);border:1px solid var(--line);padding:9px 14px;background:var(--bg3)}
+.k:hover{border-color:var(--pink)}
+.k.p1{background:var(--pink);color:var(--bg2);border-color:var(--pink)}
+.k u{text-decoration:none;color:var(--pink)}.k.p1 u{color:var(--bg2);text-decoration:underline}
+.svc .dot{color:#8fe3a8}
+.svc dl{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px;margin:8px 0 0;font-size:14.5px}
+.svc dt{color:var(--dim);text-align:right}.svc dd{margin:0}
+.svc .grn{color:#8fe3a8}
+.log{font-size:13.5px;line-height:1.75}
+.log .row{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:in .35s ease both}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.log time{color:var(--dim)}.log .tg{color:var(--teal)}.log .w{color:var(--pink)}
+.cursor{display:inline-block;width:.6em;height:1.05em;background:var(--pink);vertical-align:-.15em;animation:bl 1.1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.bar{position:fixed;left:0;right:0;bottom:0;height:40px;z-index:9;display:flex;align-items:center;background:var(--pink);color:var(--bg2);font:700 14px "JetBrains Mono";overflow-x:auto;scrollbar-width:none}
+.bar .s{background:var(--bg2);color:var(--pink);padding:0 14px;height:100%;display:flex;align-items:center;gap:4px;flex:none}
+.bar .s i{width:.55em;height:1em;background:var(--pink);animation:bl 1.1s steps(1) infinite}
+.bar a{color:var(--bg2);text-decoration:none;padding:0 12px;height:100%;display:flex;align-items:center;flex:none}
+.bar a.on{background:var(--fg);}
+.bar a:hover{background:#ffd2c7}
+.bar .r{margin-left:auto;padding:0 14px;flex:none;display:flex;gap:14px;align-items:center}
+.bar .r a{background:var(--bg2);color:var(--fg);padding:0 12px}
+/* window 1: work */
+.win{border-top:1px solid var(--line)}
+.win .hdr{display:flex;justify-content:space-between;padding:10px 20px;background:var(--bg2);color:var(--dim);font-size:13px;border-bottom:1px solid var(--line)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.split > div{background:var(--bg);padding:36px 44px}
+.less h2{font-size:clamp(30px,3.4vw,46px);line-height:1;letter-spacing:-.03em;margin:0 0 6px;font-weight:800}
+.less .meta{color:var(--dim);font-size:14px}
+.less h3{font-size:14px;color:var(--pink);margin:26px 0 6px;letter-spacing:.04em}
+.less h3::before{content:"## ";color:var(--dim)}
+.less p,.less li{font:400 17.5px/1.6 "IBM Plex Sans",sans-serif;color:var(--fg2);margin:0;max-width:60ch}
+.less ul{padding-left:20px;margin:0}
+.less code{font:500 14px "JetBrains Mono";background:var(--bg3);border:1px solid var(--line);padding:1px 7px;color:var(--fg)}
+.less .end{margin-top:26px;color:var(--bg2);background:var(--fg2);display:inline-block;padding:0 6px;font-size:13px}
+.shot{display:flex;flex-direction:column;gap:14px;justify-content:center}
+.shot .cap{color:var(--dim);font-size:13px}
+.ls{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.ls a{background:var(--bg);padding:20px 24px;text-decoration:none;color:var(--fg)}
+.ls a:hover{background:var(--bg3)}
+.ls b{color:var(--teal)}.ls b::after{content:"/";color:var(--dim)}
+.ls span{display:block;font:400 15px "IBM Plex Sans";color:var(--fg2);margin-top:4px}
+@media (max-width:860px){
+  .tmux{height:auto;grid-template-columns:1fr;grid-template-rows:auto}
+  .pane.main{grid-row:auto;padding:30px 18px 34px}
+  .pane{padding:14px 16px}
+  .log .row{white-space:normal}
+  .split{grid-template-columns:1fr}.split > div{padding:24px 16px}
+  .ls{grid-template-columns:1fr}
+  .bar a:not(.keep){display:none}
+  .bar a.work{display:flex}
+  #clk{display:none}
+  .bar .r{padding:0 6px}
+  .win .hdr{flex-direction:column;gap:2px;padding:10px 16px}
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<section class="tmux" id="top">
+  <div class="pane main">
+    <span class="ttl">0:whoami</span>
+    <div class="p"><b>kiyo@kiyotopkop</b>:~$ whoami</div>
+    <h1 class="big">Aerrol John<br><span class="nk">“Kiyo”</span> Jimenez</h1>
+    <p class="role">Cybersecurity + Full-Stack Developer</p>
+    <p class="line">Networking student by degree, full-stack developer by trade, defender by habit.</p>
+    <div class="acts"><a class="k p1" href="#"><u>r</u>esume.pdf ↓</a><a class="k" href="#work"><u>w</u>ork</a><a class="k" href="mailto:Jimenezaerroljj@gmail.com"><u>m</u>ail</a><a class="k" href="https://github.com/KiyoTopKop"><u>g</u>ithub</a><a class="k" href="https://www.linkedin.com/in/aerrol-jimenez-116b903b7/"><u>l</u>inkedin</a></div>
+  </div>
+  <div class="pane svc">
+    <span class="ttl">systemctl</span>
+    <div class="p"><b>$</b> systemctl status kiyo</div>
+    <div><span class="dot">●</span> kiyo.service — Cybersecurity + Full-Stack Developer</div>
+    <dl>
+      <dt>Loaded:</dt><dd>Imus, Cavite, PH; onsite / hybrid / remote</dd>
+      <dt>Active:</dt><dd class="grn">active (open to work) · available Dec 2026</dd>
+      <dt>Main PID:</dt><dd>BS IT Networking, DLSU-D, 4th year</dd>
+      <dt>Tasks:</dt><dd>web apps · home lab · blue team · AI agents</dd>
+      <dt>Memory:</dt><dd>Filipino, English, Japanese (limited)</dd>
+    </dl>
+  </div>
+  <div class="pane">
+    <span class="ttl">tail -f activity.log</span>
+    <div class="p"><b>$</b> tail -f ~/activity.log</div>
+    <div class="log" id="log"></div>
+  </div>
+</section>
+
+<section class="win" id="work">
+  <div class="hdr"><span>1:work · less projects/autoshop/README.md</span><span>freelance · client confidential</span></div>
+  <div class="split">
+    <div class="less">
+      <h2>AutoShop<br>Inventory &amp; POS</h2>
+      <div class="meta">2025 – present · sole developer</div>
+      <h3>problem</h3><p>A multi-branch auto parts shop tracked stock and sales in Excel sheets that drifted apart.</p>
+      <h3>my role</h3><p>Sole developer: design, build, security audit, delivery.</p>
+      <h3>approach</h3><ul><li>Roles enforced in the database with Row Level Security, not just the UI</li><li>Barcode stock-in/out, branch transfers, audit log</li><li>Attacked my own app as a malicious staff account before launch</li></ul>
+      <h3>stack</h3><p><code>next.js 14</code> <code>typescript</code> <code>supabase</code> <code>rls</code> <code>playwright</code></p>
+      <h3>result</h3><p>Replaced the Excel workflow. Closed security and data-loss defects, including a privilege-escalation path, before launch.</p>
+      <div class="end">(END)</div>
+    </div>
+    <div class="shot"><div id="mock"></div><div class="cap">↑ mock UI with demo data. The red toast is the blocked escalation.</div></div>
+  </div>
+  <div class="ls" id="ls"></div>
+</section>
+
+<nav class="bar" aria-label="Windows">
+  <span class="s">[kiyo]<i></i></span>
+  <a class="on" href="#top">0:whoami*</a><a class="work" href="#work">1:work</a><a href="#">2:experience</a><a href="#">3:security</a><a class="keep" href="mailto:Jimenezaerroljj@gmail.com">4:contact</a>
+  <span class="r"><a class="keep" href="#">resume.pdf</a><span id="clk"></span></span>
+</nav>
+<script src="../shared/mock.js"></script>
+<script>
+document.getElementById("mock").innerHTML = MockUI.autoshop({bg:"#0c2421",panel:"#163a36",line:"#2b524c",fg:"#fbe6a0",muted:"#93a89c",acc:"#f48067",ok:"#8fe3a8",warn:"#fbe6a0",bad:"#f48067"});
+document.getElementById("ls").innerHTML = KIYO.projects.slice(1).map(p=>`<a href="#"><b>${p[0].toLowerCase().replace(/ /g,"-")}</b><span>${p[1]}</span></a>`).join("") + `<a href="mailto:Jimenezaerroljj@gmail.com"><b>contact</b><span>Jimenezaerroljj@gmail.com · say hi</span></a>`;
+// Real events from the project repos and resume
+const L = [
+  ["2025-07","autoshop","v1 shipped: C# WinForms + SQL Server, barcode scanners"],
+  ["2026-03","autoshop","v2 rebuild started: Next.js 14 + Supabase"],
+  ["2026-04","homelab","old laptop → CasaOS server: AdGuard, NAS, game server"],
+  ["2026-04","homelab","AdGuard: adult + gambling domains blocked, approved devices only"],
+  ["2026-07","autoshop","audit: role helper trusted a user-writable claim", "w"],
+  ["2026-07","autoshop","fixed: roles now resolve from the users table only"],
+  ["2026-08","sovereign","PRD approved: SOC analyst workspace, tri-SIEM queries"],
+  ["2026-09","depedal","field docks online, first real rides"],
+  ["2026-10","depedal","Google Play closed test approved"],
+  ["now    ","hermes","orchestrator → HR bot → task bots, Qwen3.8-27B local"],
+];
+const log = document.getElementById("log"), reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const row = e => `<div class="row"><time>${e[0]}</time> <span class="tg">${e[1].padEnd(9," ")}</span> <span class="${e[3]||""}">${e[2]}</span></div>`;
+if (reduce) log.innerHTML = L.map(row).join("");
+else { let i = 0; (function tick(){ log.insertAdjacentHTML("beforeend", row(L[i % L.length])); i++; while (log.children.length > 9) log.firstElementChild.remove(); setTimeout(tick, i < 6 ? 180 : 1900); })(); }
+const clk = document.getElementById("clk"); const t = ()=> clk.textContent = new Date().toLocaleTimeString("en-PH",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Manila"})+" PHT"; t(); setInterval(t, 30000);
+// keyboard shortcuts, like a TUI
+addEventListener("keydown", e => { if (e.target.tagName === "INPUT" || e.metaKey || e.ctrlKey) return; const m = {w:"#work", m:"mailto:Jimenezaerroljj@gmail.com"}; if (m[e.key]) location.href = m[e.key]; });
+</script>
+</body>
+</html>

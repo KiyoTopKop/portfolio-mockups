@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiyo Magazine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Hanken+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Sanzo Wada combo #321: Light Brown Drab, Sulpher Yellow, Deep Slate Olive, Salvia Blue */
+:root{--olive:#253122;--olive2:#1c261a;--sul:#f5ecc2;--sul2:#d9d1a9;--sal:#97acc8;--drab:#b59392;--line:#3f4d3b}
+*{box-sizing:border-box}html{background:var(--olive2);scroll-behavior:smooth}
+body{margin:0;background:var(--olive);color:var(--sul);font:19px/1.65 Newsreader,Georgia,serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.lab{font:600 13px "Hanken Grotesk",sans-serif;letter-spacing:.16em;text-transform:uppercase}
+nav.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:22px;padding:12px 32px;background:var(--olive);border-bottom:1px solid var(--line)}
+nav.top .logo{font:400 26px "Instrument Serif";text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:3px}
+nav.top .logo i{width:8px;height:20px;background:var(--sal);animation:bl 1.1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+nav.top a.l{text-decoration:none;color:var(--sul2)}
+nav.top a.l:hover{color:var(--sul)}
+nav.top a.res{background:var(--sul);color:var(--olive);padding:7px 14px}
+.cover{position:relative;min-height:calc(100vh - 54px);padding:24px 32px 32px;display:grid;grid-template-rows:auto auto 1fr auto;max-width:1500px;margin:0 auto;overflow:hidden}
+.strap .av{display:none}
+.strap{display:flex;justify-content:space-between;color:var(--sul2);border-bottom:1px solid var(--line);padding-bottom:10px}
+.mast{font:400 clamp(150px,30vw,460px)/.74 "Instrument Serif";letter-spacing:-.04em;margin:18px 0 0 -.04em;text-transform:uppercase;display:flex;overflow:hidden}
+.mast span{display:inline-block;animation:up .9s cubic-bezier(.2,.8,.2,1) both}
+.mast span:nth-child(2){animation-delay:.07s}.mast span:nth-child(3){animation-delay:.14s}.mast span:nth-child(4){animation-delay:.21s}
+@keyframes up{from{transform:translateY(100%)}}
+.issue{display:flex;justify-content:space-between;align-items:baseline;border-top:3px double var(--sul);border-bottom:1px solid var(--line);padding:8px 0;margin-top:6px}
+.issue .t{font:italic 400 22px "Instrument Serif"}
+.body{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:40px;padding-top:30px;align-items:start}
+.lines a{display:block;text-decoration:none;padding:14px 0;border-bottom:1px solid var(--line)}
+.lines a:first-child{padding-top:0}
+.lines .k{color:var(--sal)}
+.lines b{display:block;font:400 28px/1.05 "Instrument Serif";margin:4px 0 4px}
+.lines span{color:var(--sul2);font-size:16px}
+.lines a:hover b{font-style:italic}
+.star{text-align:center}
+.star .lab{color:var(--drab)}
+.star h1{font:italic 400 clamp(54px,6.6vw,104px)/.9 "Instrument Serif";margin:12px 0 18px;letter-spacing:-.02em}
+.star .role{font:600 16px "Hanken Grotesk";letter-spacing:.14em;text-transform:uppercase;color:var(--sal);margin:0}
+.star .deck{font:400 23px/1.4 Newsreader;margin:16px auto 0;max-width:30ch}
+.star .cta{display:flex;justify-content:center;gap:12px;margin-top:26px;flex-wrap:wrap}
+.btn{font:600 14px "Hanken Grotesk";letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:13px 20px;border:1px solid var(--sul)}
+.btn.p{background:var(--sul);color:var(--olive)}
+.btn:hover{background:var(--sal);border-color:var(--sal);color:var(--olive)}
+.sticker{position:absolute;right:46px;top:180px;width:150px;height:150px;border-radius:50%;background:var(--sal);color:var(--olive);display:grid;place-items:center;text-align:center;transform:rotate(12deg);font:600 13px/1.3 "Hanken Grotesk";letter-spacing:.12em;text-transform:uppercase}
+.sticker b{display:block;font:italic 400 36px/1 "Instrument Serif";letter-spacing:0;text-transform:none}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-top:24px}
+.bar{position:relative;background:var(--sul);padding:10px 12px 6px;color:var(--olive);text-align:center;font:500 11px "Hanken Grotesk";letter-spacing:.2em;overflow:hidden}
+.bar svg{display:block;height:54px;width:170px}
+.bar::after{content:"";position:absolute;left:0;right:0;height:2px;background:#d4452f;box-shadow:0 0 8px #d4452f;top:10px;animation:scan 2.8s ease-in-out infinite}
+@keyframes scan{50%{top:60px}}
+.contacts{color:var(--sul2);font-size:16px;display:flex;gap:18px;flex-wrap:wrap}
+.contacts a{text-decoration:none;border-bottom:1px solid var(--line)}
+.contacts a:hover{border-color:var(--sul)}
+/* feature */
+.feature{background:var(--sul);color:var(--olive);padding:80px 32px 140px}
+.feature .in{max-width:1180px;margin:0 auto}
+.feature .kick{color:#6a5a59;display:flex;justify-content:space-between;border-bottom:1px solid #cfc6a0;padding-bottom:10px}
+.feature h2{font:400 clamp(60px,9vw,150px)/.86 "Instrument Serif";letter-spacing:-.03em;margin:26px 0 18px}
+.feature h2 em{color:#5b7397}
+.stand{font:italic 400 26px/1.4 Newsreader;max-width:40ch;margin:0 0 10px}
+.by{color:#6a5a59}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:44px}
+.cols p{margin:0 0 18px}
+.cols p.drop::first-letter{font:400 108px/.8 "Instrument Serif";float:left;margin:8px 12px 0 -4px;color:#5b7397}
+.cols h3{font:600 13px "Hanken Grotesk";letter-spacing:.16em;text-transform:uppercase;margin:28px 0 6px;color:#6a5a59}
+.pull{font:italic 400 38px/1.15 "Instrument Serif";border-top:3px solid var(--olive);border-bottom:1px solid var(--olive);padding:20px 0;margin:10px 0 26px}
+figure{margin:0}
+figcaption{font:500 14px "Hanken Grotesk";color:#6a5a59;margin-top:10px;letter-spacing:.02em}
+figcaption b{color:var(--olive)}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font:500 15px "Hanken Grotesk";border-top:1px solid #cfc6a0;padding-top:16px;margin-top:24px}
+.facts dt{letter-spacing:.14em;text-transform:uppercase;color:#6a5a59;font-size:12.5px;padding-top:2px}
+.facts dd{margin:0}
+@media (max-width:980px){
+  nav.top{padding:10px 16px;gap:14px}
+  nav.top a.l:not(.res):not(.ct){display:none}
+  .cover{padding:16px 16px 28px;min-height:auto}
+  .strap{font-size:11px;flex-direction:column;gap:2px}
+  .mast{font-size:38vw}
+  .body{grid-template-columns:1fr;gap:26px;padding-top:22px}
+  .star{order:-1}
+  .lines.r{display:none}
+  .sticker{display:none}
+  .strap .av{display:inline}
+  .issue .lab{display:none}
+  .feature .kick{flex-direction:column;gap:4px}
+  .feature h2{line-height:.95}
+  .foot{flex-direction:column;align-items:flex-start}
+  .feature{padding:50px 16px 90px}
+  .cols{grid-template-columns:1fr;gap:24px}
+  .stand{font-size:22px}
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="Main">
+  <a class="logo" href="#">kiyo<i></i></a>
+  <a class="l lab" href="#feature">Work</a><a class="l lab" href="#">Experience</a><a class="l lab" href="#">Security</a><a class="l lab ct" href="mailto:Jimenezaerroljj@gmail.com">Contact</a><a class="l lab res" href="#">Resume</a>
+</nav>
+<header class="cover">
+  <div class="strap lab"><span>Imus, Cavite · Philippines</span><span>The Security + Full-Stack Issue</span><span>Fall 2026 · No. 04<span class="av"> · Available Dec 2026</span></span></div>
+  <div class="mast" aria-hidden="true"><span>K</span><span>i</span><span>y</span><span>o</span></div>
+  <div class="issue"><span class="t">Networking student by degree, full-stack developer by trade, defender by habit.</span><span class="lab">kiyotopkop.me</span></div>
+  <div class="body">
+    <div class="lines">
+      <a href="#feature"><span class="lab k">Feature · p.12</span><b>Building it, then breaking it</b><span>How a pre-launch audit caught a privilege-escalation path in AutoShop</span></a>
+      <a href="#"><span class="lab k">Field notes · p.24</span><b>Inside Sovereign</b><span>A SOC workspace for analysts who are still learning why</span></a>
+    </div>
+    <div class="star">
+      <span class="lab">Cover story</span>
+      <h1>Aerrol John “Kiyo” Jimenez</h1>
+      <p class="role">Cybersecurity + Full-Stack Developer</p>
+      <p class="deck">A fourth-year networking student who ships production apps, then attacks them.</p>
+      <div class="cta"><a class="btn p" href="#feature">Read the feature</a><a class="btn" href="#">Resume PDF</a></div>
+    </div>
+    <div class="lines r">
+      <a href="#"><span class="lab k">Home lab · p.31</span><b>An old laptop, reborn</b><span>CasaOS, AdGuard DNS filtering and a NAS</span></a>
+      <a href="#"><span class="lab k">Campus · p.38</span><b>DePedal, built by three</b><span>A Flutter app, a React console and a Supabase backend</span></a>
+    </div>
+  </div>
+  <div class="sticker" aria-label="Available December 2026"><div>Available<b>Dec 2026</b>Onsite · Hybrid · Remote</div></div>
+  <div class="foot">
+    <div class="contacts"><a href="mailto:Jimenezaerroljj@gmail.com">Jimenezaerroljj@gmail.com</a><a href="https://github.com/KiyoTopKop">GitHub</a><a href="https://www.linkedin.com/in/aerrol-jimenez-116b903b7/">LinkedIn</a></div>
+    <div class="bar" aria-hidden="true"><svg id="bc" viewBox="0 0 170 54" preserveAspectRatio="none"></svg>K I Y O T O P K O P</div>
+  </div>
+</header>
+<article class="feature" id="feature">
+  <div class="in">
+    <div class="kick lab"><span>Feature</span><span>Freelance · client confidential · 2025 – present</span></div>
+    <h2>Building it, <em>then breaking it</em></h2>
+    <p class="stand">AutoShop Inventory &amp; POS replaced a parts shop's Excel sheets. Before it went live, its only developer tried to break in.</p>
+    <div class="by lab">Role: sole developer · Next.js 14 · TypeScript · Supabase · Playwright</div>
+    <div class="cols">
+      <div>
+        <h3>The problem</h3>
+        <p class="drop">A multi-branch auto parts shop tracked its stock and sales in Excel. The sheets drifted apart, so no one could say for certain which branch held what.</p>
+        <h3>The approach</h3>
+        <p>I rebuilt the system as a web app with four roles, enforced inside the database with Row Level Security rather than only in the interface. Barcode stock-in and stock-out, branch-to-branch transfers with approvals, and an audit log came next.</p>
+        <div class="pull">“Then I logged in as a staff account and tried to make myself an admin.”</div>
+        <h3>The result</h3>
+        <p>The Excel workflow is gone. The audit closed security and data-loss defects before launch, including a privilege-escalation path, and each fix is now guarded by an adversarial test.</p>
+      </div>
+      <div>
+        <figure><div id="mock"></div><figcaption><b>Fig. 1</b> The inventory screen, shown with demo data. The red notice is the escalation attempt being refused.</figcaption></figure>
+        <dl class="facts"><dt>Problem</dt><dd>Excel sheets drifting apart across branches</dd><dt>My role</dt><dd>Sole developer: design, build, audit, delivery</dd><dt>Stack</dt><dd>Next.js 14, TypeScript, Supabase (RLS), Playwright</dd><dt>Links</dt><dd>Private repo · walkthrough on request</dd></dl>
+      </div>
+    </div>
+  </div>
+</article>
+<script src="../shared/mock.js"></script>
+<script>
+document.getElementById("mock").innerHTML = MockUI.autoshop({bg:"#253122",panel:"#2e3c2a",line:"#45563f",fg:"#f5ecc2",muted:"#c4bb94",acc:"#97acc8",ok:"#b8c98f",warn:"#e8c27a",bad:"#e0796a",font:"Hanken Grotesk, sans-serif"});
+// decorative barcode
+let x = 0, s = ""; const seed = "KIYOTOPKOP".split("").map(c=>c.charCodeAt(0));
+for (let i=0; x<168; i++){ const w = 1 + (seed[i%seed.length] + i*7) % 4; if (i%2===0) s += `<rect x="${x}" y="0" width="${w}" height="54" fill="#253122"/>`; x += w; }
+document.getElementById("bc").innerHTML = s;
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Rack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Sanzo Wada combo #295: Dull Violet Black, Blue, Cream Yellow, Yellow */
+:root{--bg:#1e0e3f;--bg2:#160a30;--panel:#2a1a52;--fg:#f6ecd9;--muted:#bcb0cf;--line:#3d2d6b;--blue:#006eb8;--blue-l:#4fa6e6;--cream:#fdbf68;--yel:#fff200}
+*{box-sizing:border-box}html{background:var(--bg2);scroll-behavior:smooth}
+body{margin:0;color:var(--fg);font:18px/1.6 Barlow,system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:radial-gradient(90% 70% at 70% 30%,#2b1760 0%,var(--bg) 45%,var(--bg2) 100%) no-repeat,var(--bg2)}
+a{color:inherit}
+.d{font-family:"Chakra Petch",sans-serif}
+header{position:fixed;inset:0 0 auto;z-index:20;display:flex;align-items:center;gap:8px;padding:14px 28px}
+.logo{font:700 15px "Chakra Petch";letter-spacing:.02em;display:flex;align-items:center;gap:3px;text-decoration:none;margin-right:auto}
+.logo i{width:8px;height:16px;background:var(--yel);animation:bl 1.1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+header a.n,header button{font:600 14px "Chakra Petch";letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--fg);padding:8px 12px;background:none;border:1px solid transparent;cursor:pointer}
+header a.n:hover{border-color:var(--line)}
+header a.n.res{background:var(--cream);color:var(--bg2)}
+header button{border-color:var(--line)}
+.hero{min-height:100vh;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:center;max-width:1400px;margin:0 auto;padding:90px 28px 40px;gap:20px}
+.kick{font:600 14px "Chakra Petch";letter-spacing:.2em;color:var(--cream);text-transform:uppercase}
+.kick b{color:var(--yel)}
+h1{font:700 clamp(46px,6.2vw,92px)/.92 "Chakra Petch";letter-spacing:-.01em;margin:16px 0 18px;text-transform:uppercase}
+h1 .nk{color:var(--cream);display:block;font-size:.5em;letter-spacing:.06em;margin:4px 0 2px}
+.role{font:600 22px "Chakra Petch";margin:0;color:var(--blue-l);letter-spacing:.02em}
+.line{color:var(--muted);max-width:44ch;margin:8px 0 0}
+.status{display:flex;flex-wrap:wrap;gap:18px;margin-top:22px;font:500 14px "Chakra Petch";letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.status span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--yel);margin-right:8px;box-shadow:0 0 10px var(--yel)}
+.status span.b::before{background:var(--blue-l);box-shadow:0 0 10px var(--blue-l)}
+.cta{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
+.btn{font:700 15px "Chakra Petch";letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:13px 20px;border:1px solid var(--line);background:var(--panel)}
+.btn.p{background:var(--yel);color:var(--bg2);border-color:var(--yel)}
+.btn:hover{border-color:var(--cream)}
+.stage{position:relative;height:min(84vh,760px)}
+#gl{position:absolute;inset:0}
+#gl canvas{display:block;cursor:pointer}
+.tip{position:absolute;left:0;top:0;pointer-events:none;background:var(--bg2);border:1px solid var(--cream);padding:10px 14px;font-size:15px;max-width:260px;opacity:0;transform:translate(-50%,-120%);transition:opacity .15s}
+.tip b{font:700 15px "Chakra Petch";letter-spacing:.06em;color:var(--cream);display:block}
+.hint .tp{display:none}@media (hover:none){.hint .hv{display:none}.hint .tp{display:inline}}
+.hint{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font:500 13px "Chakra Petch";letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+/* plain / fallback rack */
+.flat{display:none;flex-direction:column;gap:6px;padding:18px;background:var(--bg2);border:10px solid #120826;border-left-width:22px;border-right-width:22px;max-width:560px;margin:0 auto}
+.flat a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;background:linear-gradient(#2e1d5a,#24154a);text-decoration:none;border-top:1px solid #4a3a7f}
+.flat b{font:700 16px "Chakra Petch";letter-spacing:.1em;color:var(--cream)}
+.flat span{font-size:14px;color:var(--muted)}
+.flat i{width:7px;height:7px;border-radius:50%;background:var(--yel);box-shadow:0 0 8px var(--yel);flex:none}
+.plain #gl,.plain .hint,.plain .tip{display:none}
+.plain .flat{display:flex}
+.plain .stage{height:auto}
+/* case */
+.case{max-width:1240px;margin:0 auto;padding:40px 28px 140px}
+.plate{position:relative;background:linear-gradient(#2a1a52,#21134a);border:1px solid var(--line);padding:46px 52px;display:grid;grid-template-columns:1fr 1.05fr;gap:44px}
+.plate::before,.plate::after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#8d82ad,#3a2c63);top:16px;left:16px}
+.plate::after{left:auto;right:16px}
+.uid{font:600 13px "Chakra Petch";letter-spacing:.2em;color:var(--cream);text-transform:uppercase}
+.plate h2{font:700 clamp(34px,4vw,54px)/1 "Chakra Petch";text-transform:uppercase;margin:10px 0 6px}
+.plate .sub{color:var(--muted);font-size:16px}
+.spec{margin:24px 0 0;display:grid;gap:0}
+.spec div{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--line)}
+.spec dt{font:700 13px "Chakra Petch";letter-spacing:.14em;text-transform:uppercase;color:var(--blue-l);padding-top:3px}
+.spec dd{margin:0}
+.spec ul{margin:0;padding-left:18px}
+@media (max-width:900px){
+  header{padding:10px 14px}
+  header a.n:not(.res):not(.ct){display:none}
+  header button{padding:8px 10px;font-size:12px;white-space:nowrap}
+  .hero{grid-template-columns:1fr;padding:80px 16px 24px;min-height:auto}
+  .stage{height:440px}
+  .hint{bottom:-6px}
+  .case{padding:20px 16px 90px}
+  .plate{grid-template-columns:1fr;padding:30px 18px}
+  .spec div{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">kiyo<i></i></a>
+  <a class="n" href="#work">Work</a><a class="n" href="#">Experience</a><a class="n" href="#">Security</a><a class="n ct" href="mailto:Jimenezaerroljj@gmail.com">Contact</a><a class="n res" href="#">Resume</a>
+  <button id="plain" aria-pressed="false">Plain view</button>
+</header>
+<section class="hero">
+  <div>
+    <div class="kick">$ whoami → <b>kiyo</b></div>
+    <h1>Aerrol John <span class="nk">“Kiyo”</span>Jimenez</h1>
+    <p class="role">Cybersecurity + Full-Stack Developer</p>
+    <p class="line">Networking student by degree, full-stack developer by trade, defender by habit.</p>
+    <div class="status"><span>Available Dec 2026</span><span class="b">Imus, Cavite, PH</span><span class="b">Onsite · Hybrid · Remote</span></div>
+    <div class="cta"><a class="btn p" href="#work">See my work</a><a class="btn" href="#">Resume PDF</a></div>
+  </div>
+  <div class="stage">
+    <div id="gl" aria-hidden="true"></div>
+    <div class="tip" id="tip"></div>
+    <div class="hint"><span class="hv">Hover a unit to pull it out · click to open</span><span class="tp">Tap a unit to pull it out</span></div>
+    <nav class="flat" id="flat" aria-label="Projects rack"></nav>
+  </div>
+</section>
+<section class="case" id="work">
+  <article class="plate">
+    <div>
+      <div class="uid">Unit 01 · freelance · client confidential</div>
+      <h2>AutoShop Inventory &amp; POS</h2>
+      <div class="sub">2025 – present · sole developer</div>
+      <dl class="spec">
+        <div><dt>Problem</dt><dd>A multi-branch auto parts shop tracked stock and sales in Excel sheets that drifted apart.</dd></div>
+        <div><dt>My role</dt><dd>Sole developer: design, build, security audit, delivery.</dd></div>
+        <div><dt>Approach</dt><dd><ul><li>Roles enforced in the database with Row Level Security</li><li>Barcode stock-in/out, branch transfers, audit log</li><li>Adversarial audit of my own app before launch</li></ul></dd></div>
+        <div><dt>Stack</dt><dd>Next.js 14 · TypeScript · Supabase · Playwright</dd></div>
+        <div><dt>Result</dt><dd>Replaced the Excel workflow and closed security and data-loss defects, including a privilege-escalation path, before launch.</dd></div>
+      </dl>
+    </div>
+    <div id="mock" style="align-self:center"></div>
+  </article>
+</section>
+<script src="../shared/mock.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+document.getElementById("mock").innerHTML = MockUI.autoshop({bg:"#160a30",panel:"#24154a",line:"#3d2d6b",fg:"#f6ecd9",muted:"#bcb0cf",acc:"#006eb8",ok:"#4fa6e6",warn:"#fdbf68",bad:"#ff7a6b"});
+const UNITS = [
+  ["AUTOSHOP","INVENTORY · POS","Multi-branch inventory + POS with database-enforced roles","#work"],
+  ["SOVEREIGN","SOC WORKSPACE","IR playbooks, tri-SIEM queries, case reports",""],
+  ["DEPEDAL","BIKE-SHARING","Flutter rider app, React admin, Supabase backend",""],
+  ["CASAOS","HOME LAB · NAS","Old laptop turned home server",""],
+  ["ADGUARD","DNS FILTER","Blocks adult + gambling domains, approved devices only",""],
+  ["HERMES","AI ORCHESTRATOR","Orchestrator → HR bot → task-specific bots",""],
+  ["QWEN3.8-27B","LOCAL MODEL","Runs locally on my own PC",""],
+];
+document.getElementById("flat").innerHTML = UNITS.map(u=>`<a href="${u[3]||"#"}"><i></i><b>${u[0]}</b><span>${u[2]}</span></a>`).join("");
+const plainBtn = document.getElementById("plain");
+plainBtn.onclick = () => { const on = document.body.classList.toggle("plain"); plainBtn.setAttribute("aria-pressed", on); plainBtn.textContent = on ? "3D view" : "Plain view"; if (!on) kick && kick(); };
+let kick = null;
+
+(async function(){
+  const host = document.getElementById("gl"), tip = document.getElementById("tip");
+  let ok = !!window.THREE; try { ok = ok && !!document.createElement("canvas").getContext("webgl"); } catch(e){ ok = false; }
+  if (!ok) { document.body.classList.add("plain"); plainBtn.hidden = true; return; }
+  try { await document.fonts.load('700 48px "Chakra Petch"'); await document.fonts.load('600 30px "Chakra Petch"'); } catch(e){}
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const R = new THREE.WebGLRenderer({antialias:true, alpha:true}); R.setPixelRatio(Math.min(devicePixelRatio,2)); host.appendChild(R.domElement);
+  R.outputEncoding = THREE.sRGBEncoding;
+  const S = new THREE.Scene(), C = new THREE.PerspectiveCamera(32, 1, .1, 100);
+  S.add(new THREE.AmbientLight(0x8a7ab8, .55));
+  const key = new THREE.DirectionalLight(0xfff1dc, 1.1); key.position.set(4, 6, 8); S.add(key);
+  const rim = new THREE.PointLight(0x2f8fe0, 2.2, 20); rim.position.set(-4, 2, -2); S.add(rim);
+  const rack = new THREE.Group(); S.add(rack);
+  const UH = .52, W = 4.2, D = 3, N = UNITS.length, H = N*UH + .5;
+  const metal = new THREE.MeshStandardMaterial({color:0x140a2a, metalness:.6, roughness:.45});
+  [[-W/2-.12, -D/2+.1],[W/2+.12,-D/2+.1],[-W/2-.12,D/2-.1],[W/2+.12,D/2-.1]].forEach(([x,z])=>{ const m = new THREE.Mesh(new THREE.BoxGeometry(.22,H,.22), metal); m.position.set(x,0,z); rack.add(m); });
+  [H/2, -H/2].forEach(y=>{ const m = new THREE.Mesh(new THREE.BoxGeometry(W+.5,.12,D), metal); m.position.y = y; rack.add(m); });
+  const back = new THREE.Mesh(new THREE.PlaneGeometry(W,H), new THREE.MeshStandardMaterial({color:0x0c0620})); back.position.z = -D/2+.05; rack.add(back);
+  function face(u){
+    const c = document.createElement("canvas"); c.width = 1024; c.height = Math.round(1024*UH/W); const g = c.getContext("2d");
+    const gr = g.createLinearGradient(0,0,0,c.height); gr.addColorStop(0,"#3a2770"); gr.addColorStop(1,"#241549"); g.fillStyle = gr; g.fillRect(0,0,c.width,c.height);
+    g.fillStyle = "rgba(255,255,255,.08)"; g.fillRect(0,0,c.width,2);
+    g.fillStyle = "#100722"; for (let x=610; x<930; x+=14) g.fillRect(x, 26, 6, c.height-52);
+    g.fillStyle = "#8d82ad"; [[22,22],[22,c.height-22],[1002,22],[1002,c.height-22]].forEach(([x,y])=>{ g.beginPath(); g.arc(x,y,7,0,7); g.fill(); });
+    g.fillStyle = "#fdbf68"; g.font = '700 48px "Chakra Petch"'; g.textBaseline = "middle"; g.fillText(u[0], 92, c.height/2 - 12);
+    g.fillStyle = "#bcb0cf"; g.font = '600 24px "Chakra Petch"'; g.fillText(u[1], 94, c.height/2 + 26);
+    const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 8; return t;
+  }
+  const units = UNITS.map((u,i)=>{
+    const grp = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.BoxGeometry(W, UH-.04, D-.2), [metal,metal,metal,metal,new THREE.MeshStandardMaterial({map:face(u), metalness:.3, roughness:.55}),metal]);
+    grp.add(body);
+    const leds = [0,1,2].map(k=>{ const m = new THREE.Mesh(new THREE.CircleGeometry(.045,16), new THREE.MeshBasicMaterial({color: k===2 ? 0x4fa6e6 : 0xfff200})); m.position.set(-W/2+.2, .12 - k*.12, (D-.2)/2+.002); grp.add(m); return {m, ph:Math.random()*6, sp:2+Math.random()*6}; });
+    grp.position.y = H/2 - .25 - UH/2 - i*UH; grp.userData = {i, out:0, target:0, leds}; body.userData.unit = grp; rack.add(grp); return grp;
+  });
+  let Wd=0, Ht=0; function size(){ Wd = host.clientWidth; Ht = host.clientHeight; R.setSize(Wd,Ht); C.aspect = Wd/Ht; C.updateProjectionMatrix(); const dist = Wd < 600 ? 10.2 : 11.2; C.position.set(dist*.42, 1.6, dist); C.lookAt(0,-.1,0); } size(); addEventListener("resize", size);
+  const ray = new THREE.Raycaster(), mp = new THREE.Vector2(); let hover = null, mx = 0, my = 0;
+  const aim = e=>{ const r = host.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; mp.set(mx/Wd*2-1, -(my/Ht)*2+1); pick(); };
+  host.addEventListener("pointermove", aim); host.addEventListener("pointerdown", aim);
+  host.addEventListener("pointerleave", ()=>{ hover = null; units.forEach(u=>u.userData.target=0); tip.style.opacity = 0; kick(); });
+  host.addEventListener("click", ()=>{ if (hover){ const u = UNITS[hover.userData.i]; if (u[3]) document.querySelector(u[3]).scrollIntoView({behavior: reduce?"auto":"smooth"}); }});
+  function pick(){ ray.setFromCamera(mp, C); const hit = ray.intersectObjects(units.map(u=>u.children[0]))[0]; hover = hit ? hit.object.userData.unit : null;
+    units.forEach(u=>u.userData.target = (u===hover) ? 1.15 : 0);
+    if (hover){ const u = UNITS[hover.userData.i]; tip.innerHTML = `<b>${u[0]}</b>${u[2]}${u[3]?"<br><u>Click to open the case study</u>":""}`; tip.style.left = mx+"px"; tip.style.top = my+"px"; tip.style.opacity = 1; } else tip.style.opacity = 0;
+    kick(); }
+  let visible = true, raf = 0, t0 = performance.now();
+  new IntersectionObserver(([e])=>{ visible = e.isIntersecting; if (visible) kick(); }).observe(host);
+  function frame(now){
+    const t = (now - t0)/1000; let moving = false;
+    units.forEach(u=>{ const d = u.userData; const nv = reduce ? d.target : d.out + (d.target - d.out)*.14; if (Math.abs(nv-d.out) > .001) moving = true; d.out = nv; u.position.z = d.out;
+      d.leds.forEach((l,k)=>{ l.m.material.color.setHex(reduce || k===2 || Math.sin(t*l.sp+l.ph) > -.2 ? (k===2?0x4fa6e6:0xfff200) : 0x3a3410); }); });
+    rack.rotation.y = -.3 + (reduce ? 0 : Math.sin(t*.25)*.05);
+    R.render(S, C);
+    return moving;
+  }
+  kick = function(){ cancelAnimationFrame(raf); if (!visible || document.body.classList.contains("plain")) return; const loop = now => { const moving = frame(now); if (!reduce || moving) raf = requestAnimationFrame(loop); }; raf = requestAnimationFrame(loop); };
+  kick();
+})();
+</script>
+</body>
+</html>

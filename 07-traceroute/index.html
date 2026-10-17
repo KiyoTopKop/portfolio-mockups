@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Traceroute Kiyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;900&family=Red+Hat+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Sanzo Wada combo #141: Orange, Yellow Green, Dark Tyrian Blue */
+:root{--navy:#12354e;--navy2:#0c2638;--navy3:#184563;--fg:#eef3ea;--muted:#a9bfc9;--line:#2a5573;--or:#f37420;--yg:#afd472}
+*{box-sizing:border-box}html{background:var(--navy2);scroll-behavior:smooth}
+body{margin:0;background:var(--navy);color:var(--fg);font:18px/1.6 "Red Hat Display",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(var(--line) 1px,transparent 1.4px);background-size:28px 28px}
+a{color:inherit}
+.m{font-family:"Red Hat Mono",monospace}
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:6px;padding:12px 28px;background:color-mix(in srgb,var(--navy2) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.logo{font:700 16px "Red Hat Mono";text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:3px}
+.logo i{width:8px;height:16px;background:var(--or);animation:bl 1.1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+header a.h{font:500 14px "Red Hat Mono";text-decoration:none;color:var(--muted);padding:6px 10px;border-radius:6px}
+header a.h b{color:var(--or);font-weight:700;margin-right:6px}
+header a.h.on,header a.h:hover{color:var(--fg);background:var(--navy3)}
+header a.res{background:var(--or);color:var(--navy2);font-weight:700}
+main{position:relative;max-width:1240px;margin:0 auto;padding:30px 28px 160px 120px}
+.route{position:absolute;left:60px;top:84px;bottom:120px;width:4px;background:var(--line);border-radius:2px}
+.route .fill{position:absolute;left:0;top:0;width:100%;background:linear-gradient(var(--yg),var(--or));border-radius:2px;height:0}
+.route .pkt{position:absolute;left:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--or);box-shadow:0 0 0 6px rgba(243,116,32,.25),0 0 26px var(--or);top:0}
+.cmd{font:500 16px "Red Hat Mono";color:var(--muted)}
+.cmd b{color:var(--yg)}
+.cmd .o{color:var(--fg)}
+.hop{position:relative;padding:26px 0 40px}
+.hop .dot{position:absolute;left:-69px;top:31px;width:22px;height:22px;border-radius:50%;background:var(--navy2);border:3px solid var(--line);transition:border-color .3s,background .3s}
+.hop.reached .dot{border-color:var(--yg);background:var(--yg)}
+.hop .hd{display:flex;gap:18px;align-items:baseline;font:500 15px "Red Hat Mono";color:var(--muted)}
+.hop .hd .n{color:var(--or);font-weight:700}
+.hop .hd .ms{margin-left:auto}
+.hop .hd .host{color:var(--fg)}
+h1{font:900 clamp(46px,6.4vw,96px)/.95 "Red Hat Display";letter-spacing:-.03em;margin:16px 0 14px}
+h1 .nk{color:var(--or)}
+.role{font:700 24px "Red Hat Display";margin:0;color:var(--yg)}
+.line{color:var(--muted);margin:8px 0 0;max-width:46ch;font-size:19px}
+.st{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:18px;font:500 15px "Red Hat Mono"}
+.st span{color:var(--fg)}.st span::before{content:"▸ ";color:var(--or)}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn{font:700 15px "Red Hat Mono";text-decoration:none;padding:12px 18px;border-radius:8px;border:1px solid var(--line);background:var(--navy2)}
+.btn.p{background:var(--or);color:var(--navy2);border-color:var(--or)}
+.btn:hover{border-color:var(--yg)}
+.cap{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:22px;background:var(--navy2);border:1px solid var(--line);border-radius:14px;padding:26px}
+.cap h2{font:900 clamp(32px,3.6vw,48px)/1 "Red Hat Display";letter-spacing:-.02em;margin:0 0 4px}
+.cap .sub{font:400 14.5px "Red Hat Mono";color:var(--muted)}
+.tree{margin-top:18px;font-size:17px}
+.tree details{border-top:1px solid var(--line);padding:10px 0}
+.tree summary{font:700 14.5px "Red Hat Mono";color:var(--yg);cursor:pointer;list-style:none;display:flex;gap:8px}
+.tree summary::-webkit-details-marker{display:none}
+.tree summary::before{content:"▸";color:var(--or);transition:transform .2s}
+.tree details[open] summary::before{transform:rotate(90deg)}
+.tree summary span{color:var(--muted);font-weight:400}
+.tree p{margin:6px 0 0 18px}
+.tree ul{margin:6px 0 0 18px;padding-left:18px}
+.hex{font:400 12.5px/1.7 "Red Hat Mono";color:#5f84a0;margin-top:14px;white-space:pre;overflow:hidden}
+.hex b{color:var(--or);font-weight:400}
+.more{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+.more a{display:block;text-decoration:none;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--navy2)}
+.more a:hover{border-color:var(--or)}
+.more b{display:block;font-weight:700}
+.more span{color:var(--muted);font-size:15px}
+.dest{margin-top:22px;font:500 16px "Red Hat Mono";color:var(--muted)}
+.dest b{color:var(--yg)}
+@media (max-width:860px){
+  header{padding:10px 14px}
+  header a.h:not(.res):not(.ct){display:none}
+  main{padding:20px 16px 100px 50px}
+  .route{left:22px;top:66px}
+  .hop .dot{left:-38px;width:18px;height:18px;top:30px}
+  .hop .hd{flex-wrap:wrap;gap:4px 12px;font-size:13.5px}
+  .cap{grid-template-columns:1fr;padding:16px}
+  .hex{display:none}
+  .more{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">kiyo<i></i></a>
+  <a class="h on" href="#h2"><b>2</b>whoami</a><a class="h" href="#h3"><b>3</b>work</a><a class="h" href="#"><b>4</b>experience</a><a class="h" href="#"><b>5</b>security</a><a class="h ct" href="#h6"><b>6</b>contact</a><a class="h res" href="#">resume.pdf</a>
+</header>
+<main id="main">
+  <div class="route" aria-hidden="true"><div class="fill" id="fill"></div><div class="pkt" id="pkt"></div></div>
+  <div class="cmd"><b>$</b> <span class="o">traceroute kiyotopkop.me</span><br>traceroute to kiyotopkop.me (Imus, Cavite, PH), 6 hops max</div>
+
+  <section class="hop" id="h1"><span class="dot"></span>
+    <div class="hd"><span class="n">1</span><span class="host">you</span><span>this browser</span><span class="ms">0.4 ms</span></div>
+  </section>
+
+  <section class="hop" id="h2"><span class="dot"></span>
+    <div class="hd"><span class="n">2</span><span class="host">whoami.kiyotopkop.me</span><span class="ms">12 ms</span></div>
+    <h1>Aerrol John <span class="nk">“Kiyo”</span> Jimenez</h1>
+    <p class="role">Cybersecurity + Full-Stack Developer</p>
+    <p class="line">Networking student by degree, full-stack developer by trade, defender by habit.</p>
+    <div class="st"><span>Available Dec 2026</span><span>Imus, Cavite, PH</span><span>Onsite · Hybrid · Remote</span></div>
+    <div class="cta"><a class="btn p" href="#h3">Next hop: my work ↓</a><a class="btn" href="#">resume.pdf</a><a class="btn" href="mailto:Jimenezaerroljj@gmail.com">email</a></div>
+  </section>
+
+  <section class="hop" id="h3"><span class="dot"></span>
+    <div class="hd"><span class="n">3</span><span class="host">work.kiyotopkop.me</span><span>capture: 6 projects</span><span class="ms">24 ms</span></div>
+    <article class="cap">
+      <div>
+        <h2>AutoShop Inventory &amp; POS</h2>
+        <div class="sub">Frame 1 · freelance · client confidential · 2025 – present</div>
+        <div class="tree">
+          <details open><summary>Problem <span>· layer 8, the business</span></summary><p>A multi-branch auto parts shop tracked stock and sales in Excel sheets that drifted apart.</p></details>
+          <details open><summary>My role</summary><p>Sole developer: design, build, security audit, delivery.</p></details>
+          <details open><summary>Approach</summary><ul><li>Four roles enforced in the database with Row Level Security</li><li>Barcode stock-in/out, branch transfers, audit log</li><li>Adversarial audit of my own app before launch</li></ul></details>
+          <details open><summary>Stack</summary><p class="m" style="font-size:15px">Next.js 14 · TypeScript · Supabase (RLS) · Playwright</p></details>
+          <details open><summary>Result</summary><p>Replaced the Excel workflow and closed security and data-loss defects, including a privilege-escalation path, before launch.</p></details>
+        </div>
+      </div>
+      <div>
+        <div id="mock"></div>
+        <div class="hex" aria-hidden="true" id="hex"></div>
+      </div>
+    </article>
+    <div class="more" id="more"></div>
+  </section>
+
+  <section class="hop" id="h6"><span class="dot"></span>
+    <div class="hd"><span class="n">6</span><span class="host">contact.kiyotopkop.me</span><span class="ms">31 ms</span></div>
+    <div class="dest"><b>destination reached.</b> Say hi: <a href="mailto:Jimenezaerroljj@gmail.com">Jimenezaerroljj@gmail.com</a> · <a href="https://github.com/KiyoTopKop">GitHub</a> · <a href="https://www.linkedin.com/in/aerrol-jimenez-116b903b7/">LinkedIn</a></div>
+  </section>
+</main>
+<script src="../shared/mock.js"></script>
+<script>
+document.getElementById("mock").innerHTML = MockUI.autoshop({bg:"#0c2638",panel:"#12354e",line:"#2a5573",fg:"#eef3ea",muted:"#a9bfc9",acc:"#f37420",ok:"#afd472",warn:"#f3c86b",bad:"#ff6b5a"});
+document.getElementById("more").innerHTML = KIYO.projects.slice(1).map((p,i)=>`<a href="#"><span class="m" style="color:var(--or);font-size:13px">Frame ${i+2}</span><b>${p[0]}</b><span>${p[1]}</span></a>`).join("");
+// decorative hex dump of the case title
+const txt = "AutoShop Inventory & POS :: RLS enforced :: audited";
+let hx = ""; for (let i=0;i<txt.length;i+=10){ const ch = txt.slice(i,i+10); hx += i.toString(16).padStart(4,"0")+"  "+[...ch].map(c=>c.charCodeAt(0).toString(16).padStart(2,"0")).join(" ").padEnd(30," ")+"  <b>"+ch.replace(/&/g,"&amp;")+"</b>\n"; }
+document.getElementById("hex").innerHTML = hx;
+// packet follows scroll position (no scroll-jacking)
+const main = document.getElementById("main"), route = main.querySelector(".route"), fill = document.getElementById("fill"), pkt = document.getElementById("pkt");
+const hops = [...document.querySelectorAll(".hop")], links = [...document.querySelectorAll("header a.h")];
+function update(){
+  const r = route.getBoundingClientRect(); const target = innerHeight * .45;
+  const y = Math.max(0, Math.min(r.height, target - r.top));
+  fill.style.height = y + "px"; pkt.style.top = y + "px";
+  let last = null;
+  hops.forEach(h=>{ const d = h.querySelector(".dot").getBoundingClientRect(); const reached = d.top + d.height/2 <= r.top + y + 2; h.classList.toggle("reached", reached); if (reached) last = h.id; });
+  links.forEach(a=> a.classList.toggle("on", a.getAttribute("href") === "#" + last));
+}
+addEventListener("scroll", ()=> requestAnimationFrame(update), {passive:true}); addEventListener("resize", update); update();
+</script>
+</body>
+</html>
